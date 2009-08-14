@@ -53,7 +53,7 @@ class BerlinMessage < Message
   bmp 55, "Integrated Circuit Card (ICC) System Related Data", LLLVAR_B,   :max    => 255
   bmp 56, "Original Data Elements",                            LLVAR_N,    :max    =>  35
   bmp 58, "Authorizing Agent Institution Identification Code", LLVAR_N,    :max    =>  11
-  bmp 59, "Additional Data – Private",                         LLLVAR_ANS, :max    =>  67
+  bmp 59, "Additional Data - Private",                         LLLVAR_ANS, :max    =>  67
   bmp 64, "Message Authentication Code (MAC) Field",           B,          :length =>   8
   
   bmp_alias  2, :pan
@@ -64,6 +64,7 @@ end
 
 if __FILE__==$0
 mes = BerlinMessage.new
+mes.mti = 1110
 mes[2] = 474747474747
 mes["Processing Code"] = "123456"
 
@@ -72,5 +73,6 @@ pan = mes["Primary Account Number (PAN)"]
 
 #puts mes.pan
 puts mes.to_b
+puts mes.to_s
 #mes2 = BerlinMessage.parse input
 end

@@ -59,6 +59,21 @@ class Message
     mti_enc+bitmap.to_bytes + message
   end
 
+  def to_s
+    _mti_name = _get_mti_definition(mti)[1]
+    str = "MTI:#{mti} (#{_mti_name})\n\n"
+    _max = @values.values.max {|a,b|
+      a.name.length <=> b.name.length
+    }
+    _max_name = _max.name.length
+    
+    @values.keys.sort.each{|bmp_num|
+      _bmp = @values[bmp_num]
+      str += ("%03d %#{_max_name}s : %s\n" % [bmp_num, _bmp.name, _bmp.value])
+    }
+    str
+  end
+
   def _get_definition key
     b = self.class.definitions[key]
     unless b
