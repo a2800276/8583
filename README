@@ -12,7 +12,7 @@ class you need to use ...
 
 == Installing
 
-You can install the +hello+ package by executing:
+You can install the +iso7816+ package by executing:
 
 	gem install iso7816 -r
 
