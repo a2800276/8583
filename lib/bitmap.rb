@@ -1,5 +1,13 @@
+# Copyright 2009 by Tim Becker (tim.becker@kuriostaet.de)
+# MIT License, for details, see the LICENSE file accompaning
+# this distribution
 
-
+# This class constructs an object for handling bitmaps
+# with which ISO8583 messages typically begin.
+# Bitmaps are either 8 or 16 bytes long, an extended length
+# bitmap is indicated by the first bit being set.
+# In all likelyhood, you won't be using this class much, it's used
+# transparently by the Message class. 
 class Bitmap
 
 	
@@ -17,16 +25,16 @@ class Bitmap
 	end
 	
 	# yield once with the number of each set field.
-	def each
+	def each #:yields: each bit set in the bitmap.
 		@bmp.each_with_index {|set,i| yield i+i if set}
 	end
 	
-	# returns whether the bit is set or not.
+	# Returns whether the bit is set or not.
 	def [] i
 		@bmp[i-1]
 	end
 
-	# set the bit to the indicated value. Only `true` sets the
+	# Set the bit to the indicated value. Only `true` sets the
 	# bit, any other value unsets it.
 	def []= i,value
 		if i > 128 
@@ -37,25 +45,26 @@ class Bitmap
 		@bmp[i-1]=(value==true)
 	end
 
-	# sets bit #i
+	# Sets bit #i
 	def set i
 		self[i]=true
 	end
 	
-	# unsets bit #i
+	# Unsets bit #i
 	def unset i
 		self[i]=false
 	end
 
-	# generate the bytes representing this bitmap.
+	# Generate the bytes representing this bitmap.
 	def to_bytes
 		arr=[self.to_s]
 		# tricky and ugly, setting bit[1] only when generating to_s...
 		count = self[1] ? 128 : 64
 		arr.pack("B#{count}")
 	end
+  alias_method :to_b :to_bytes
 
-	# generate a String representation of this bitmap in the form:
+	# Generate a String representation of this bitmap in the form:
 	#	01001100110000011010110110010100100110011000001101011011001010
 	def to_s
 		#check whether any `high` bits are set
@@ -89,7 +98,7 @@ private
 	end
   
   class << self
-    # parse the bytes in string and return the Bitmap and bytes remaining in `str`
+    # Parse the bytes in string and return the Bitmap and bytes remaining in `str`
     # after the bitmap is taken away.
     def parse str
       bmp  = Bitmap.new(str)

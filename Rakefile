@@ -44,7 +44,7 @@ Rake::RDocTask.new do |rd|
 	# documenation from.
 	rd.rdoc_files.include(	"README", "AUTHORS", "LICENSE", "TODO",
 				"CHANGELOG", "bin/**/*", "lib/**/*.rb", 
-				"examples/**/*rb","test/**/*.rb", "doc/*.rdoc")
+				"examples/**/*rb", "doc/*.rdoc")
 	# This one specifies the output directory ...
 	rd.rdoc_dir 	= "doc/html"
 

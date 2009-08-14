@@ -1,15 +1,16 @@
+# Copyright 2009 by Tim Becker (tim.becker@kuriostaet.de)
+# MIT License, for details, see the LICENSE file accompaning
+# this distribution
+
 require 'lib/iso8583'
 
-# MTID Message Type Sender 
-# 1100 Authorization Request Acquirer Gateway 
-# 1110 Authorization Request Response Issuer Gateway 
-# 1420 Reversal Advice Acquirer Gateway 
-# 1421 Reversal Advice Repeat Acquirer Gateway 
-# 1430 Reversal Advice Response Issuer Gateway 
-# 1804 Network Management Request Acquirer Gateway or 
-# Issuer Gateway 
-# 1814 Network Management Request Response Issuer Gateway or 
-# Acquirer Gateway 
+
+# Example of a protocol specification based on:
+# http://www.berlin-group.org/documents/BG_Authorisation_3.0.pdf
+# The Berlin Groups Authorisation Interface specification.
+# No gurantees are made that this is an accurate implemenation.
+# It currently serves as an example only.
+
 
 class BerlinMessage < Message
   mti_format N, :length=>4
