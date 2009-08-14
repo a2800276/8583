@@ -87,6 +87,14 @@ private
 
 	
 	end
+  
+  class << self
+    def parse str
+      bmp  = Bitmap.new(str)
+      rest = bmp[1] ? str[16,str.length] : str[8,str.length]
+      return [bmp,rest]
+    end
+  end
 	
 end
 

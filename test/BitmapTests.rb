@@ -54,5 +54,16 @@ class BitmapTests < Test::Unit::TestCase
 		}
 	end
 
+  def test_parse_rest
+    tst = "\x00\x49\x24\x92\x49\x24\x92\x40\x31\x32\x33\x34"
+		b, rest = Bitmap.parse tst
+    puts rest
+		10.step(60,3) {|i| 
+			assert(b[i], "bit #{i} is not set.")
+			assert(!b[i+i], "bit #{i+i} is set.")
+		}
+    assert_equal("1234", rest)
+  end
+
 end
 	
