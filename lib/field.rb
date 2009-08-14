@@ -3,17 +3,24 @@ class Field
   # fixed length fields.
   attr_accessor :length
   attr_accessor :codec
- 
+  attr_accessor :padding
+  attr_accessor :max
+
+  attr_writer   :name
+  attr_accessor :bmp
+
+  def name
+    "BMP #{bmp}: #{@name}(#{self.class.to_s})"
+  end
 
   def parse raw
-
     len, raw = case length
                when Fixnum
                  [length, raw]
                when Field
                  length.parse(raw)
                else
-                 raise ISO8583Exception.new("How did you manage to fuck up configuration this bad?")
+                 raise ISO8583Exception.new("How did you manage to fuck up configuration this bad? <-")
                end
 
     raw_value  = raw[0,len]
@@ -28,9 +35,37 @@ class Field
     real_value = codec.decode(raw_value)
     return real_value, rest
   end
+  
 
+  # Encoding needs to consider length representation, the actual encoding (such as charset or BCD) 
+  # and padding. 
+  # The order may be important! This impl calls codec.encode and then pads, in case you need the other 
+  # special treatment, you may need to override this method alltogether.
   def encode value
+    encoded_value = codec.encode(value) 
+    
+    
+    if padding
+      if padding.arity == 1
+        encoded_value = padding.call(encoded_value)
+      elsif padding.arity == 2
+        encoded_value = padding.call(encoded_value, length)
+      end
+    end
 
+    len_str = case length
+              when Fixnum
+                raise ISO8583Exception.new("Too long: #{value}!")  if encoded_value.length > length
+                raise ISO8583Exception.new("Too short: #{value}!") if encoded_value.length < length
+                "" 
+              when Field
+                raise ISO8583Exception.new("Max lenth exceeded: #{value}, max: #{max}") if max && encoded_value.length > max
+                length.encode(encoded_value.length)
+              else
+                raise ISO8583Exception.new("How did you manage to fuck up configuration this bad? ->")
+              end
+    return len_str + encoded_value
+    
   end
 end
 
