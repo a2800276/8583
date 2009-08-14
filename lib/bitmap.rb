@@ -62,7 +62,7 @@ class Bitmap
 		count = self[1] ? 128 : 64
 		arr.pack("B#{count}")
 	end
-  alias_method :to_b :to_bytes
+  alias_method :to_b, :to_bytes
 
 	# Generate a String representation of this bitmap in the form:
 	#	01001100110000011010110110010100100110011000001101011011001010
