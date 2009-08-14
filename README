@@ -7,14 +7,7 @@ Financial Message.
 
 == Installing
 
-Having a "Installing" section is a bit of a chicken or egg question.
-Someone reading the README has, in all likelyhood already installed your
-package. On the other hand, in case your project has a more involved
-build process, it might be worthwhile to consider describing it in a
-seperate INSTALL file.
-
-It can't hurt to provide canonical instructions for installation,
-though. You can install the +hello+ package by executing:
+You can install the +hello+ package by executing:
 
 	gem install iso7816 -r
 
