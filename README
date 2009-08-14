@@ -1,0 +1,51 @@
+
+= ISO 8583 Financial Messaging for Ruby 
+
+This package currently contains code for coding an decoding ISO 8583
+Financial Message.
+
+
+== Installing
+
+Having a "Installing" section is a bit of a chicken or egg question.
+Someone reading the README has, in all likelyhood already installed your
+package. On the other hand, in case your project has a more involved
+build process, it might be worthwhile to consider describing it in a
+seperate INSTALL file.
+
+It can't hurt to provide canonical instructions for installation,
+though. You can install the +hello+ package by executing:
+
+	gem install iso7816 -r
+
+alternatively, you can download +.tar.gz+ or +.zip+ archives from 
+Rubyforge[http://rubyforge.org/frs/?group_id=1791].
+
+== Source
+
+The source is most readily available on github[http://github.com/a2800276/8583/], 
+and there should usually be a more or less current version available
+in the Rubyforge SVN repository.
+
+
+== Mailing List
+
+In case you discover bugs, spelling errors, offer suggestions for
+improvements or would like to help out with the project, you can contact
+me directly (tim@kuriositaet.de).	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=

@@ -39,7 +39,6 @@ class FieldTest < Test::Unit::TestCase
 
     assert_raise(ISO8583Exception) {
       dt = YYMMDDhhmmssCodec.decode "091312121212"
-      puts dt
     }
     
     assert_raise(ISO8583Exception) {
@@ -58,7 +57,6 @@ class FieldTest < Test::Unit::TestCase
 
     assert_raise(ISO8583Exception) {
       dt = YYMMCodec.decode "0913"
-      puts dt
     }
     
     assert_raise(ISO8583Exception) {
