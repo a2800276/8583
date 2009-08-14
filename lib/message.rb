@@ -1,6 +1,7 @@
 
 
 class BMP
+  
   attr_accessor :bmp
   attr_accessor :name
   attr_accessor :field
@@ -17,30 +18,32 @@ class BMP
 end
 
 class Message 
-
+  
   def initialize
     @values = {}
   end
-
+  
+  # set a field in this message, `key` is either the
+  # bmp number or it's name.
   def []= key, value
     bmp_def              = _get_definition key
     bmp_def.value        = value
     @values[bmp_def.bmp] = bmp_def 
   end
 
+  # retrieve the decoded value of a bitmap
   def [] key
     bmp_def = _get_definition key
     bmp     = @values[bmp_def.bmp]
     bmp ? bmp.value : nil
   end
-
+  
+  # retrieve the byte representation of the bitmap.
   def to_b
     bitmap  = Bitmap.new
     message = ""
     @values.keys.sort.each{|bmp_num|
       bitmap.set(bmp_num)
-      
-       
       enc_value = @values[bmp_num].encode
       message << enc_value
     }
@@ -56,6 +59,12 @@ class Message
   end
 
   class << self
+    # Define a bitmap in the message
+    # params:
+    # bmp   : bitmap number
+    # name  : human readable form
+    # field : field for encoding/decoding
+    # opts  : options to pass to the field, e.g. length for fxed len fields.
     def bmp bmp, name, field, opts=nil
       @defs ||= {}
 
@@ -69,20 +78,53 @@ class Message
       @defs[bmp]  = bmp_def
       @defs[name] = bmp_def
     end
-
+    
+    # create an alias to access bitmaps directly using a method,
+    # Example:
+    #     bmp_alias 2, :pan
+    #
+    # would allow you to access the PAN like this:
+    #
+    #    mes.pan = 1234
+    #    puts mes.pan
+    #
+    # instead of:
+    #
+    #    mes[2] = 1234
+    #
     def bmp_alias bmp, aliaz
       define_method (aliaz) {
-        bmp = @values[bmp]
-        bmp ? bmp.value : nil
+        bmp_ = @values[bmp]
+        bmp_ ? bmp_.value : nil
       }
 
       define_method ("#{aliaz}=") { |value|
-        bmp_def = _get_definition(bmp)
-        bmp_def.value= value
-        @values[bmp] = bmp_def
+        self[bmp]=value
+        #bmp_def = _get_definition(bmp)
+        #bmp_def.value= value
+        #@values[bmp] = bmp_def
       }
     end
-
+    
+    # parse `str` returnning a message of the defined type.
+    def parse str
+      message = self.new
+      bmp,rest = Bitmap.parse(str)
+      bmp.each {|bit|
+        bmp_def     = definitions[bit]
+        value, rest = bmp_def.field.parse(rest)
+        puts bit
+        puts value
+        message[bit] = value
+      }
+      return message
+    end
+    
+    #
+    # Access the field definitions of this class, this is a
+    # hash containing [bmp_number, BMP] and [bitmap_name, BMP]
+    # pairs.
+    #
     def definitions 
       @defs
     end
