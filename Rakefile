@@ -9,7 +9,7 @@ require "rubygems"
 
 SHORTNAME	='iso8583'	# this should be the rubyforge project name
 DESC		="Ruby implementation of ISO 8583 financial messaging"
-PKG_VERSION 	='0.0.1'
+PKG_VERSION 	='0.1.0'
 LONG_DESC	= <<END_DESC
 	Ruby implementation of ISO 8583 financial messaging
 END_DESC
@@ -74,11 +74,17 @@ spec = Gem::Specification.new do |s|
 	s.platform = Gem::Platform::RUBY
 	s.summary = "#{SHORTNAME}: #{DESC}"
 	s.name = SHORTNAME
+	s.rubyforge_project = SHORTNAME
 	s.version = PKG_VERSION
 	s.files = PKG_FILES
 	s.requirements << "none"
 	s.require_path = 'lib'
 	s.description = LONG_DESC
+  s.has_rdoc=true
+  s.author="Tim Becker"
+  s.email="tim.becker@kuriositaet.de"
+  s.homepage="http://iso8583.rubyforge.org/"
+
 end
 
 # Adding a new GemPackageTask adds a task named `package`, which generates
