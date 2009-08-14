@@ -1,25 +1,16 @@
+LL        = Field.new
+LL.length = 2
+LL.codec  = ASCII_Number
 
-class LLL < Field
-  name :LLL
-  length 3
-  codec ASCII_Number
-end
+LLL        = Field.new
+LLL.length = 3
+LLL.codec  = ASCII_Number
 
-class LL < Field
-  name :LL
-  length 2
-  codec ASCII_Number
-end
+LLVAR_N        = Field.new
+LLVAR_N.length = LL
+LLVAR_N.codec  = ASCII_Number
 
-class LLNVAR < Field
-  name :LLNVAR
-  length LL
-  codec ASCII_Number
-end
-
-class LLLNVAR < Field
-  name :LLLNVAR
-  length LLL
-  codec ASCII_Number
-end
+LLLVAR_N        = Field.new
+LLLVAR_N.length = LLL
+LLLVAR_N.codec  = ASCII_Number
 
