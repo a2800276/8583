@@ -89,6 +89,8 @@ private
 	end
   
   class << self
+    # parse the bytes in string and return the Bitmap and bytes remaining in `str`
+    # after the bitmap is taken away.
     def parse str
       bmp  = Bitmap.new(str)
       rest = bmp[1] ? str[16,str.length] : str[8,str.length]
