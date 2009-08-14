@@ -42,6 +42,7 @@ class BerlinMessage < Message
   bmp_alias 12, :exp_date
 end
 
+if __FILE__==$0
 mes = BerlinMessage.new
 mes[2] = 474747474747
 mes["Processing Code"] = "123456"
@@ -52,4 +53,4 @@ pan = mes["Primary Account Number (PAN)"]
 #puts mes.pan
 puts mes.to_b
 #mes2 = BerlinMessage.parse input
-
+end
