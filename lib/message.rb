@@ -18,9 +18,16 @@ class BMP
 end
 
 class Message 
-  
+
+  attr_reader :mti 
+
   def initialize
     @values = {}
+  end
+
+  def mti= value
+    num, name = _get_mti_definition(value)
+    @mti = num
   end
   
   # set a field in this message, `key` is either the
@@ -40,6 +47,8 @@ class Message
   
   # retrieve the byte representation of the bitmap.
   def to_b
+    raise ISO8583Exception.new "no MTI set!" unless mti
+    mti_enc = self.class._mti_format.encode(mti)
     bitmap  = Bitmap.new
     message = ""
     @values.keys.sort.each{|bmp_num|
@@ -47,7 +56,7 @@ class Message
       enc_value = @values[bmp_num].encode
       message << enc_value
     }
-    bitmap.to_bytes + message
+    mti_enc+bitmap.to_bytes + message
   end
 
   def _get_definition key
@@ -58,7 +67,38 @@ class Message
     b
   end
 
+  # return [mti_num, mti_value] for key being either
+  # mti_num or mti_value
+  def _get_mti_definition key
+    num_hash,name_hash = self.class.mti_definitions
+    if    num_hash[key]
+      [key, num_hash[key]]
+    elsif name_hash[key]
+      [name_hash[key], key]
+    else
+      raise ISO8583Exception.new("MTI: #{key} not allowed!")
+    end
+    
+  end
+
   class << self
+    
+    # Define the allowed Message Types for the message.
+    # Params:
+    # field    : the decoder/encoder for the MTI
+    def mti_format field, opts 
+      f = field.dup
+      _handle_opts(f, opts)
+      @mti_format = f
+    end
+
+    def mti value, name
+      @mtis_v ||= {}
+      @mtis_n ||= {}
+      @mtis_v[value] = name
+      @mtis_n[name]  = value
+    end
+
     # Define a bitmap in the message
     # params:
     # bmp   : bitmap number
@@ -109,12 +149,11 @@ class Message
     # parse `str` returnning a message of the defined type.
     def parse str
       message = self.new
-      bmp,rest = Bitmap.parse(str)
+      message.mti, rest = _mti_format.parse str
+      bmp,rest = Bitmap.parse(rest)
       bmp.each {|bit|
         bmp_def     = definitions[bit]
         value, rest = bmp_def.field.parse(rest)
-        puts bit
-        puts value
         message[bit] = value
       }
       return message
@@ -127,6 +166,14 @@ class Message
     #
     def definitions 
       @defs
+    end
+
+    def mti_definitions
+      [@mtis_v, @mtis_n]
+    end
+
+    def _mti_format
+      @mti_format
     end
 
     def _handle_opts field, opts

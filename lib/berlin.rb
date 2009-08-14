@@ -1,6 +1,26 @@
 require 'lib/iso8583'
 
+# MTID Message Type Sender 
+# 1100 Authorization Request Acquirer Gateway 
+# 1110 Authorization Request Response Issuer Gateway 
+# 1420 Reversal Advice Acquirer Gateway 
+# 1421 Reversal Advice Repeat Acquirer Gateway 
+# 1430 Reversal Advice Response Issuer Gateway 
+# 1804 Network Management Request Acquirer Gateway or 
+# Issuer Gateway 
+# 1814 Network Management Request Response Issuer Gateway or 
+# Acquirer Gateway 
+
 class BerlinMessage < Message
+  mti_format N, :length=>4
+  mti 1100, "Authorization Request Acquirer Gateway"
+  mti 1110, "Authorization Request Response Issuer Gateway"
+  mti 1420, "Reversal Advice Acquirer Gateway" 
+  mti 1421, "Reversal Advice Repeat Acquirer Gateway" 
+  mti 1430, "Reversal Advice Response Issuer Gateway" 
+  mti 1804, "Network Management Request Acquirer Gateway or Issuer Gateway"
+  mti 1814, "Network Management Request Response Issuer Gateway or Acquirer Gateway"
+
   bmp  2, "Primary Account Number (PAN)",               LLVAR_N,   :max    => 19
   bmp  3,  "Processing Code",                           N,         :length =>  6
   bmp  4,  "Amount (Transaction)",                      N,         :length => 12
