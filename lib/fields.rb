@@ -45,6 +45,10 @@ LLL.padding = lambda { |value|
   sprintf("%03d", value)
 }
 
+LL_BCD        = BCDField.new
+LL_BCD.length = 2
+LL_BCD.codec  = Packed_Number
+
 # Two byte variable length ASCII numeral, payload ASCII numerals
 LLVAR_N        = Field.new
 LLVAR_N.length = LL
@@ -87,6 +91,9 @@ N.codec = ASCII_Number
 N.padding = lambda {|val, len|
   sprintf("%0#{len}d", val)
 }
+
+N_BCD = BCDField.new
+N_BCD.codec = Packed_Number
 
 PADDING_LEFT_JUSTIFIED_SPACES = lambda {|val, len|
   sprintf "%-#{len}s", val

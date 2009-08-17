@@ -1,6 +1,8 @@
 class Field
   # may either be some other Field in which the length is encoded or a Fixnum for
-  # fixed length fields.
+  # fixed length fields. Length should always be the length of the *encoded* value.
+  # A 6 digit BCD field will require a length 3, as will a 5 digit BCD field.
+  # The subclass BCDField handles this to keep things consistant.
   attr_accessor :length
   attr_accessor :codec
   attr_accessor :padding
@@ -41,6 +43,7 @@ class Field
   # and padding. 
   # The order may be important! This impl calls codec.encode and then pads, in case you need the other 
   # special treatment, you may need to override this method alltogether.
+  # In other cases, the padding has to be implemented by the codec, such as BCD with an odd number of nibbles.
   def encode value
     encoded_value = codec.encode(value) 
     
@@ -66,6 +69,15 @@ class Field
               end
     return len_str + encoded_value
     
+  end
+end
+
+class BCDField < Field
+  # This corrects the length for BCD fields, as their encoded length is half (+ parity) of the
+  # content length. E.g. 123 (length = 3) encodes to "\x01\x23" (length 2)
+  def length
+    _length = super
+    (_length % 2) != 0 ?  (_length / 2)+1 : _length / 2
   end
 end
 

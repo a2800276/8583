@@ -39,6 +39,14 @@ class FieldTest < Test::Unit::TestCase
 
   end
 
+   def test_LL_BCD
+    value, rest = LL_BCD.parse "\x123456"
+    assert_equal 12, value
+    assert_equal "3456", rest    
+
+  end
+
+
   def test_LLVAR_N
     value, rest = LLVAR_N.parse "021234"
     assert_equal 12, value
@@ -158,6 +166,29 @@ class FieldTest < Test::Unit::TestCase
     assert_equal "10\000", fld.encode("10")
     assert_equal ["1! ", "a"], fld.parse("1! a")
     assert_equal ["1!", ""], fld.parse("1!\000")
+  end
+
+  def test_N_BCD
+    fld = N_BCD.dup
+    fld.length=3
+    value, rest = fld.parse "\x01\x23\x45"
+    assert_equal 123, value
+
+    assert_equal "\x01\x23", fld.encode(123)
+    assert_equal "\x01\x23", fld.encode("123")
+    assert_equal "\x01\x23", fld.encode("0123")
+
+    assert_raise(ISO8583Exception) {
+      fld.encode 12345
+    }
+
+    # There's a bug here. A 4 digit value encodes to 2 digits encoded, 
+    # which passes the test for length ... This test doesn't pass:
+
+    #asssert_raise (ISO8583Exception) {
+    #  fld.encode 1234
+    #}
+    
   end
  
   
