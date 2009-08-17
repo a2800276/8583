@@ -7,7 +7,12 @@ class UtilTest < Test::Unit::TestCase
     assert_equal "\xab\xcd\x12", hex2b("a b c d 1 2")
     assert_equal "\xab\xcd\x12", hex2b("ABCD12")
     assert_raise(ISO8583Exception){
+      # non hex
      hex2b("ABCDEFGH")
+    }
+    assert_raise(ISO8583Exception){
+      # odd num digits
+     hex2b("ABCDEF0")
     }
 	end
 	def test_b2hex

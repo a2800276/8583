@@ -23,6 +23,7 @@ end
 def hex2b hex_string
   string = hex_string.gsub(/\s+/, "")
   raise ISO8583Exception.new("Invalid Hex chars: #{hex_string}") unless string =~ /^[A-Fa-f0-9]*$/
+  raise ISO8583Exception.new("Uneven number of Hex chars #{hex_string}") unless ( (string.length % 2) == 0)
   [string].pack("H*") 
 
 end
