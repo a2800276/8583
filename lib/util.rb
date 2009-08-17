@@ -1,4 +1,6 @@
-require 'iconv'
+# Copyright 2009 by Tim Becker (tim.becker@kuriostaet.de)
+# MIT License, for details, see the LICENSE file accompaning
+# this distribution
 
 # general utilities
 #
@@ -27,7 +29,6 @@ end
 
 def _conv str, mapping
   _str = ""
-  puts str
   str.each_byte{|byte|
     _str << mapping[byte]
   }
@@ -38,7 +39,7 @@ end
 # Convert a String of ASCII chars to EBCDIC
 #
 def ascii2ebcdic ascii
-  _conv str, US_ASCII2IBM037
+  _conv ascii, US_ASCII2IBM037
 end
 
 #
@@ -50,7 +51,7 @@ end
 
 
 # The charsets supported by iconv aren't guranteed. At the very least MACs don't support ebcdic,
-# so provided rudimnentary mappings here.
+# so providing rudimentary mappings here.
 US_ASCII2IBM037 = [
   0x00, 0x01, 0x02, 0x03, 0x37, 0x2d, 0x2e, 0x2f, 0x16, 0x05, 0x15, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
   0x10, 0x11, 0x12, 0x13, 0x3c, 0x3d, 0x32, 0x26, 0x18, 0x19, 0x3f, 0x27, 0x1c, 0x1d, 0x1e, 0x1f,
