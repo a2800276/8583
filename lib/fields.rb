@@ -33,6 +33,7 @@
 
 # Special form to de/encode variable length indicators, two bytes ASCII numerals 
 LL         = Field.new
+LL.name    = "LL"
 LL.length  = 2
 LL.codec   = ASCII_Number
 LL.padding = lambda { |value|
@@ -40,6 +41,7 @@ LL.padding = lambda { |value|
 }
 # Special form to de/encode variable length indicators, three bytes ASCII numerals
 LLL         = Field.new
+LLL.name    = "LLL"
 LLL.length  = 3
 LLL.codec   = ASCII_Number
 LLL.padding = lambda { |value|
@@ -126,13 +128,16 @@ B.padding = lambda {|val, len|
 }
 
 # Date, formatted as described in ASCII numerals
-MMDDhhmmss = Field.new
-MMDDhhmmss.codec = MMDDhhmmssCodec
+MMDDhhmmss        = Field.new
+MMDDhhmmss.codec  = MMDDhhmmssCodec
+MMDDhhmmss.length = 10
 
 #Date, formatted as described in ASCII numerals
-YYMMDDhhmmss = Field.new
-YYMMDDhhmmss.codec = YYMMDDhhmmssCodec
+YYMMDDhhmmss        = Field.new
+YYMMDDhhmmss.codec  = YYMMDDhhmmssCodec
+YYMMDDhhmmss.length = 12
 
 #Date, formatted as described in ASCII numerals
-YYMM = Field.new
-YYMM.codec = YYMMCodec
+YYMM        = Field.new
+YYMM.codec  = YYMMCodec
+YYMM.length = 4

@@ -190,6 +190,11 @@ class FieldTest < Test::Unit::TestCase
     #}
     
   end
+
+  def test_YYMMDDhhmmss
+    fld = YYMMDDhhmmss
+    assert_equal "740808120000", fld.encode("740808120000")
+  end
  
   
 end

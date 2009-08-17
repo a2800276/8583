@@ -12,7 +12,7 @@ class Field
   attr_accessor :bmp
 
   def name
-    "BMP #{bmp}: #{@name}(#{self.class.to_s})"
+    "BMP #{bmp}: #{@name}"
   end
 
   def parse raw
@@ -34,7 +34,11 @@ class Field
     end
 
     rest       = raw[len, raw.length]
-    real_value = codec.decode(raw_value)
+    begin
+      real_value = codec.decode(raw_value)
+    rescue
+      raise ISO8583ParseException.new($!.message+" (#{name})")
+    end
     return real_value, rest
   end
   
@@ -55,17 +59,17 @@ class Field
         encoded_value = padding.call(encoded_value, length)
       end
     end
-
+    
     len_str = case length
               when Fixnum
-                raise ISO8583Exception.new("Too long: #{value}!")  if encoded_value.length > length
-                raise ISO8583Exception.new("Too short: #{value}!") if encoded_value.length < length
+                raise ISO8583Exception.new("Too long: #{value} (#{name})! length=#{length}")  if encoded_value.length > length
+                raise ISO8583Exception.new("Too short: #{value} (#{name})! length=#{length}") if encoded_value.length < length
                 "" 
               when Field
                 raise ISO8583Exception.new("Max lenth exceeded: #{value}, max: #{max}") if max && encoded_value.length > max
                 length.encode(encoded_value.length)
               else
-                raise ISO8583Exception.new("How did you manage to fuck up configuration this bad? ->")
+                raise ISO8583Exception.new("How did you manage to fuck up configuration this bad? ->"+length)
               end
     return len_str + encoded_value
     

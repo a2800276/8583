@@ -175,7 +175,7 @@ def _date_codec(fmt)
     dt =  begin
             DateTime.strptime str, fmt
           rescue
-            raise ISO8583Exception.new("Invalid format decoding: #{str}, must be MMDDhhmmss.")
+            raise ISO8583Exception.new("Invalid format decoding: #{str}, must be #{fmt}.")
           end
     return dt
   }

@@ -64,5 +64,18 @@ class BitmapTests < Test::Unit::TestCase
     assert_equal("1234", rest)
   end
 
+  def test_each
+    bmp = Bitmap.new
+    bmp.set(2)
+    bmp.set(3)
+    bmp.set(5)
+    bmp.set(6)
+    arr = []
+    bmp.each{|bit|
+      arr.push bit
+    }
+    assert_equal [2,3,5,6], arr
+  end
+
 end
 	
