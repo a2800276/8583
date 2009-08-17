@@ -86,5 +86,22 @@ class FieldTest < Test::Unit::TestCase
     assert_equal ";123123123=123?5", Track2.decode(";123123123=123?5")
   end
 
+  def test_packed_codec
+    assert_equal "\x12", Packed_Number.encode(12)
+    assert_equal "\x12", Packed_Number.encode("12")
+    assert_equal "\x02", Packed_Number.encode("2")
+    assert_equal "\x02", Packed_Number.encode(2)
+    assert_equal "\x02\x55", Packed_Number.encode(0xff)
+    assert_raise(ISO8583Exception) {
+      dt = Packed_Number.encode ";12312312=123?5"
+    }
+    assert_raise(ISO8583Exception) {
+      dt = Packed_Number.encode "F"
+    }
+
+
+
+  end
+
   
 end

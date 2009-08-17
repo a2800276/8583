@@ -91,6 +91,23 @@ PASS_THROUGH_DECODER = lambda{|str|
   str.strip # remove padding
 }
 
+# Takes a number or str representation of a number and BCD encodes it, e.g.
+# "1234" => "\x12\x34"
+# 3456   => "\x34\x56"
+#
+# right justified with null ... (correct to do this? almost certainly not...)
+Packed_Number = Codec.new
+Packed_Number.encoder = lambda { |val|
+  val = val.to_s
+  val = val.length % 2 == 0 ? val : "0"+val
+  raise ISO8583Exception.new("Invalid value: #{val} must be numeric!") unless val =~ /^[0-9]*$/
+  [val].pack("H*")
+}
+Packed_Number.decoder = lambda{|encoded|
+  d = encoded.unpack("H*")[0].to_i
+}
+
+
 AN_Codec = Codec.new
 AN_Codec.encoder = lambda{|str|
   raise ISO8583Exception.new("Invalid value: #{str} must be [A-Za-y0-9]") unless str =~ /^[A-Za-z0-9]*$/
