@@ -24,7 +24,7 @@ module ISO8583
                  when Field
                    length.parse(raw)
                  else
-                   raise ISO8583Exception.new("How did you manage to fuck up configuration this bad? <-")
+                   raise ISO8583Exception.new("Cannot determine the length of '#{name}' field")
                  end
 
       raw_value = raw[0,len]
@@ -71,7 +71,7 @@ module ISO8583
                   raise ISO8583Exception.new("Max lenth exceeded: #{value}, max: #{max}") if max && encoded_value.length > max
                   length.encode(encoded_value.length)
                 else
-                  raise ISO8583Exception.new("How did you manage to fuck up configuration this bad? ->"+length)
+                  raise ISO8583Exception.new("Invalid length (#{length}) for '#{name}' field")
                 end
 
       len_str + encoded_value
