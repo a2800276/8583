@@ -81,8 +81,8 @@ spec = Gem::Specification.new do |s|
   s.require_path = "lib"
   s.description = LONG_DESC
   s.has_rdoc = true
-  s.author = "Tim Becker"
-  s.email = "tim.becker@kuriositaet.de"
+  s.authors = ["Slava Kravchenko", "Tim Becker"]
+  s.email = ["cordawyn@gmail.com", "tim.becker@kuriositaet.de"]
   s.homepage = "http://iso8583.rubyforge.org/"
 end
 
