@@ -2,9 +2,11 @@ require 'lib/iso8583'
 require 'lib/berlin'
 require 'test/unit'
 
+include ISO8583
+
 class MessageTest < Test::Unit::TestCase
-	def test_create_empty
-	  mes = BerlinMessage.new
+  def test_create_empty
+    mes = BerlinMessage.new
     mes.mti = 1100
     pan = 474747474747
     mes.pan = pan
@@ -30,15 +32,15 @@ class MessageTest < Test::Unit::TestCase
     assert_equal pan, mes[2]
     assert_equal pan, mes["Primary Account Number (PAN)"]
     assert_equal "1420@\000\000\000\000\000\000\00012474747474747", mes.to_b
-	end
+  end
 
-	def test_parse
+  def test_parse
     pan = 474747474747
 
-		assert_raises(ISO8583Exception) {
-	    mes = BerlinMessage.parse "@\000\000\000\000\000\000\00012474747474747"
+    assert_raises(ISO8583Exception) {
+      mes = BerlinMessage.parse "@\000\000\000\000\000\000\00012474747474747"
     }
-	  mes = BerlinMessage.parse "1430@\000\000\000\000\000\000\00012474747474747"
+    mes = BerlinMessage.parse "1430@\000\000\000\000\000\000\00012474747474747"
     assert_equal pan, mes.pan
     assert_equal 1430, mes.mti
   end
@@ -157,10 +159,5 @@ END
     bytes = mes.to_b
     mes2 = BerlinMessage.parse(mes.to_b)
     assert_equal(mes.to_b, mes2.to_b)
-
   end
-
-
-
 end
-	

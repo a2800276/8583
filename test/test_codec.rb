@@ -1,10 +1,9 @@
 require 'test/unit'
 require 'lib/iso8583'
 
+include ISO8583
+
 class FieldTest < Test::Unit::TestCase
-
-
-
   def test_MMDDhhmmssCodec
     dt = MMDDhhmmssCodec.decode "1212121212"
     assert_equal DateTime, dt.class
@@ -13,7 +12,6 @@ class FieldTest < Test::Unit::TestCase
     assert_equal 12, dt.hour
     assert_equal 12, dt.min
     assert_equal 12, dt.sec
-
 
     assert_raise(ISO8583Exception) {
       dt = MMDDhhmmssCodec.decode "1312121212"
@@ -36,7 +34,6 @@ class FieldTest < Test::Unit::TestCase
     assert_equal 12, dt.min
     assert_equal 12, dt.sec
 
-
     assert_raise(ISO8583Exception) {
       dt = YYMMDDhhmmssCodec.decode "091312121212"
     }
@@ -46,14 +43,13 @@ class FieldTest < Test::Unit::TestCase
     }
 
     assert_equal "091212121212", YYMMDDhhmmssCodec.encode("091212121212")
-
   end
+
   def test_YYMMCodec
     dt = YYMMCodec.decode "0812"
     assert_equal DateTime, dt.class
     assert_equal 2008, dt.year
     assert_equal 12, dt.month
-
 
     assert_raise(ISO8583Exception) {
       dt = YYMMCodec.decode "0913"
@@ -64,7 +60,6 @@ class FieldTest < Test::Unit::TestCase
     }
 
     assert_equal "0912", YYMMCodec.encode("0912")
-
   end
 
   def test_AN_Codec
@@ -98,10 +93,5 @@ class FieldTest < Test::Unit::TestCase
     assert_raise(ISO8583Exception) {
       dt = Packed_Number.encode "F"
     }
-
-
-
   end
-
-  
 end

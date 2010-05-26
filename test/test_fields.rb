@@ -1,10 +1,9 @@
 require 'test/unit'
 require 'lib/iso8583'
 
+include ISO8583
+
 class FieldTest < Test::Unit::TestCase
-
-
-
   def test_LLL
     value, rest = LLL.parse "123456"
     assert_equal 123, value
@@ -34,18 +33,13 @@ class FieldTest < Test::Unit::TestCase
     assert_raise(ISO8583Exception) {
       enc = LLL.encode "1234"
     }
-    
-    
-
   end
 
-   def test_LL_BCD
+  def test_LL_BCD
     value, rest = LL_BCD.parse "\x123456"
     assert_equal 12, value
     assert_equal "3456", rest    
-
   end
-
 
   def test_LLVAR_N
     value, rest = LLVAR_N.parse "021234"
@@ -78,9 +72,9 @@ class FieldTest < Test::Unit::TestCase
     assert_raise(ISO8583Exception) {
       enc = LLLVAR_N.encode "1234ABCD"
     }
-
   end
- def test_LLVAR_Z
+
+  def test_LLVAR_Z
     value, rest = LLVAR_Z.parse "16;123123123=123?5"+"021234"
     assert_equal ";123123123=123?5", value
     assert_equal "021234", rest
@@ -102,10 +96,6 @@ class FieldTest < Test::Unit::TestCase
     assert_raise(ISO8583Exception) {
       enc = LLVAR_Z.encode "1234ABCD"
     }
-    
-    
-    
-
   end
 
   def test_AN
@@ -152,6 +142,7 @@ class FieldTest < Test::Unit::TestCase
     assert_equal "10 ", fld.encode("10")
     assert_equal ["1!", "a"], fld.parse("1! a")
   end
+
   def test_B
     fld = B.dup
     fld.length = 3
@@ -188,13 +179,10 @@ class FieldTest < Test::Unit::TestCase
     #asssert_raise (ISO8583Exception) {
     #  fld.encode 1234
     #}
-    
   end
 
   def test_YYMMDDhhmmss
     fld = YYMMDDhhmmss
     assert_equal "740808120000", fld.encode("740808120000")
   end
- 
-  
 end

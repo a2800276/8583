@@ -1,0 +1,5 @@
+0.1.2
+==========
+  branched from original 0.1.1;
+  cleaned-up files;
+  put all stuff into ISO8583 namespace (module)
