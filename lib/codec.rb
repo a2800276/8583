@@ -157,8 +157,7 @@ module ISO8583
     c = Codec.new
     c.encoder = lambda {|date|
       enc = case date
-            when Time
-            when DateTime
+            when Date, Time
               date.strftime(fmt)
             when String
               begin
