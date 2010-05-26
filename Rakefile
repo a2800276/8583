@@ -73,7 +73,7 @@ PKG_FILES 	= FileList["lib/**/*.rb", "bin/**/*", "examples/**/*", "[A-Z]*", "tes
 spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.summary = "#{SHORTNAME}: #{DESC}"
-  s.name = SHORTNAME
+  s.name = "#{RUBYFORGE_USER}-#{SHORTNAME}"
   s.rubyforge_project = SHORTNAME
   s.version = PKG_VERSION
   s.files = PKG_FILES
@@ -83,7 +83,7 @@ spec = Gem::Specification.new do |s|
   s.has_rdoc = true
   s.authors = ["Slava Kravchenko", "Tim Becker"]
   s.email = ["cordawyn@gmail.com", "tim.becker@kuriositaet.de"]
-  s.homepage = "http://iso8583.rubyforge.org/"
+  s.homepage = "http://github.com/cordawyn/8583/"
 end
 
 # Adding a new GemPackageTask adds a task named `package`, which generates
