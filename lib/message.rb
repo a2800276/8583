@@ -170,14 +170,7 @@ module ISO8583
     def to_b
       raise ISO8583Exception.new "no MTI set!" unless mti
       mti_enc = self.class._mti_format.encode(mti)
-      bitmap  = Bitmap.new
-      message = ""
-      @values.keys.sort.each{|bmp_num|
-        bitmap.set(bmp_num)
-        enc_value = @values[bmp_num].encode
-        message << enc_value
-      }
-      mti_enc + bitmap.to_bytes + message
+      mti_enc << body.join
     end
 
     # Returns a nicely formatted representation of this
@@ -195,6 +188,20 @@ module ISO8583
         str += ("%03d %#{_max_name}s : %s\n" % [bmp_num, _bmp.name, _bmp.value])
       }
       str
+    end
+
+
+    private
+
+    def body
+      bitmap  = Bitmap.new
+      message = ""
+      @values.keys.sort.each do |bmp_num|
+        bitmap.set(bmp_num)
+        enc_value = @values[bmp_num].encode
+        message << enc_value
+      end
+      [ bitmap.to_bytes, message ]
     end
 
     def _get_definition(key) #:nodoc:
@@ -341,20 +348,6 @@ module ISO8583
         message
       end
       
-
-      # METHODS starting with an underscore are meant for
-      # internal use only ...
-
-      #
-      # Access the field definitions of this class, this is a
-      # hash containing [bmp_number, BMP] and [bitmap_name, BMP]
-      # pairs.
-      #
-      def _definitions
-        @defs
-      end
-
-      #
       # access the mti definitions applicable to the Message
       #
       # returns a pair of hashes containing:
@@ -367,13 +360,25 @@ module ISO8583
         [@mtis_v, @mtis_n]
       end
       
-      
+      # Access the field definitions of this class, this is a
+      # hash containing [bmp_number, BMP] and [bitmap_name, BMP]
+      # pairs.
+      #
+      def _definitions
+        @defs
+      end
+
       # Returns the field definition to format the mti.
       def _mti_format
         @mti_format
       end
-      
-      #
+
+
+      private
+
+      # METHODS starting with an underscore are meant for
+      # internal use only ...
+
       # Modifies the field definitions of the fields passed
       # in through the `bmp` and `mti_format` class methods.
       #
