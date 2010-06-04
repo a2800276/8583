@@ -13,7 +13,7 @@ PKG_VERSION 	= "0.1.2"
 LONG_DESC	= <<END_DESC
 Ruby implementation of ISO 8583 financial messaging
 END_DESC
-RUBYFORGE_USER	= "cordawyn"
+RUBYFORGE_USER	= "a2800276"
 
 # Specifies the default task to execute. This is often the "test" task
 # and we'll change things around as soon as we have some tests.
@@ -81,9 +81,9 @@ spec = Gem::Specification.new do |s|
   s.require_path = "lib"
   s.description = LONG_DESC
   s.has_rdoc = true
-  s.authors = ["Slava Kravchenko", "Tim Becker"]
-  s.email = ["cordawyn@gmail.com", "tim.becker@kuriositaet.de"]
-  s.homepage = "http://github.com/cordawyn/8583/"
+  s.authors = ["Tim Becker", "Slava Kravchenko"]
+  s.email = ["tim.becker@kuriositaet.de","cordawyn@gmail.com"]
+  s.homepage = "http://github.com/a2800276/8583/"
 end
 
 # Adding a new GemPackageTask adds a task named `package`, which generates

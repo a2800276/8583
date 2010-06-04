@@ -1,5 +1,5 @@
-require 'lib/iso8583'
-require 'lib/berlin'
+require 'lib/8583'
+require 'lib/8583/berlin'
 require 'test/unit'
 
 include ISO8583

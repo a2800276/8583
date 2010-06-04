@@ -170,7 +170,7 @@ module ISO8583
     def to_b
       raise ISO8583Exception.new "no MTI set!" unless mti
       mti_enc = self.class._mti_format.encode(mti)
-      mti_enc << body.join
+      mti_enc << _body.join
     end
 
     # Returns a nicely formatted representation of this
@@ -191,9 +191,12 @@ module ISO8583
     end
 
 
-    private
-
-    def body
+    # METHODS starting with an underscore are meant for
+    # internal use only ...
+    
+    # Returns an array of two byte arrays:
+    # [bitmap_bytes, message_bytes]
+    def _body
       bitmap  = Bitmap.new
       message = ""
       @values.keys.sort.each do |bmp_num|
@@ -374,7 +377,6 @@ module ISO8583
       end
 
 
-      private
 
       # METHODS starting with an underscore are meant for
       # internal use only ...
