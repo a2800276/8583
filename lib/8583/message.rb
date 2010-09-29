@@ -212,7 +212,7 @@ module ISO8583
       unless b
         raise ISO8583Exception.new "no definition for field: #{key}"
       end
-      b
+      b.dup
     end
 
     # return [mti_num, mti_value] for key being either

@@ -9,7 +9,7 @@ require "rubygems"
 
 SHORTNAME	= "iso8583"	# this should be the rubyforge project name
 DESC		= "Ruby implementation of ISO 8583 financial messaging"
-PKG_VERSION 	= "0.1.2"
+PKG_VERSION 	= "0.1.3"
 LONG_DESC	= <<END_DESC
 Ruby implementation of ISO 8583 financial messaging
 END_DESC
@@ -18,7 +18,7 @@ RUBYFORGE_USER	= "a2800276"
 # Specifies the default task to execute. This is often the "test" task
 # and we'll change things around as soon as we have some tests.
 
-task  :default => [:rdoc]
+task  :default => [:test]
 
 # The directory to generate +rdoc+ in.
 RDOC_DIR = "doc/html"
