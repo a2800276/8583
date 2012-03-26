@@ -1,5 +1,5 @@
-require "rake/rdoctask"
-require "rake/gempackagetask"
+require "rdoc/task"
+require "rubygems/package_task"
 require "rake/testtask"
 require "rake/clean"
 require "rubygems"
@@ -88,7 +88,7 @@ end
 
 # Adding a new GemPackageTask adds a task named `package`, which generates
 # packages as gems, tarball and zip archives.
-Rake::GemPackageTask.new(spec) do |pkg|
+Gem::PackageTask.new(spec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar_gz = true
 end
@@ -120,7 +120,7 @@ end
 
 Rake::TestTask.new do |t|
   t.libs << "test"
-  t.libs << "lib"
+  t.libs << "."
   t.ruby_opts = ["-rubygems"]
   t.test_files = FileList["test/*.rb"]
   t.verbose = true
