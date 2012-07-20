@@ -1,4 +1,3 @@
-
 = ISO 8583 Financial Messaging for Ruby
 
 This package currently contains code for coding an decoding ISO 8583
@@ -18,7 +17,7 @@ You can install the +iso8583+ package by executing:
 
 == Source
 
-The source is most readily available on github[http://github.com/cordawyn/8583].
+The source is most readily available on github[http://github.com/a2800276/8583].
 
 == Mailing List
 
