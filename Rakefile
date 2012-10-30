@@ -9,7 +9,7 @@ require "rubygems"
 
 SHORTNAME	= "iso8583"	# this should be the rubyforge project name
 DESC		= "Ruby implementation of ISO 8583 financial messaging"
-PKG_VERSION 	= "0.1.3"
+PKG_VERSION 	= "0.1.4"
 LONG_DESC	= <<END_DESC
 Ruby implementation of ISO 8583 financial messaging
 END_DESC
