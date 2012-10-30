@@ -41,6 +41,39 @@ class FieldTest < Test::Unit::TestCase
     assert_equal "3456", rest    
   end
 
+  def test_LLVAR_AN
+    value, rest = LLVAR_AN.parse "03123ABC"
+    assert_equal "123", value
+    assert_equal "ABC", rest
+
+    value, rest = LLLVAR_AN.parse "006123ABC"
+    assert_equal "123ABC", value
+    assert_equal "", rest
+    assert_raise(ISO8583ParseException) {
+      l,rest = LLLVAR_AN.parse "12"
+    }
+    assert_raise(ISO8583ParseException) {
+      l,rest = LLVAR_AN.parse "12123"
+    }
+
+    enc = LLVAR_AN.encode "123A"
+    assert_equal "04123A", enc
+    
+    enc = LLVAR_AN.encode "123ABC123ABC"
+    assert_equal "12123ABC123ABC", enc
+    
+    assert_raise(ISO8583Exception) {
+      enc = LLVAR_AN.encode "1234 ABCD"
+    }
+    
+    enc = LLLVAR_AN.encode "123ABC123ABC"
+    assert_equal "012123ABC123ABC", enc
+    
+    assert_raise(ISO8583Exception) {
+      enc = LLLVAR_AN.encode "1234 ABCD"
+    }
+  end
+
   def test_LLVAR_N
     value, rest = LLVAR_N.parse "021234"
     assert_equal 12, value
@@ -95,6 +128,22 @@ class FieldTest < Test::Unit::TestCase
     
     assert_raise(ISO8583Exception) {
       enc = LLVAR_Z.encode "1234ABCD"
+    }
+  end
+
+  def test_A
+    fld = A.dup
+    fld.length = 3
+    value, rest = fld.parse "abcd"
+    assert_equal "abc", value
+    assert_equal "d", rest
+    
+    assert_raise(ISO8583ParseException) {
+      fld.parse "ab"
+    }
+
+    assert_raise(ISO8583Exception) {
+      fld.encode "abcdef"
     }
   end
 

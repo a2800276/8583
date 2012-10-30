@@ -62,6 +62,14 @@ class FieldTest < Test::Unit::TestCase
     assert_equal "0912", YYMMCodec.encode("0912")
   end
 
+  def test_A_Codec
+    assert_raise(ISO8583Exception) {
+      dt = A_Codec.encode "!!!"
+    }
+    assert_equal "bla", AN_Codec.encode("bla")
+    assert_equal "bla", AN_Codec.decode("bla")
+  end
+
   def test_AN_Codec
     assert_raise(ISO8583Exception) {
       dt = AN_Codec.encode "!!!"

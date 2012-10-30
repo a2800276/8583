@@ -20,10 +20,13 @@ module ISO8583
   # [+LLVAR_N+]      two byte variable length ASCII numeral, payload ASCII numerals
   # [+LLLVAR_N+]     three byte variable length ASCII numeral, payload ASCII numerals
   # [+LLVAR_Z+]      two byte variable length ASCII numeral, payload Track2 data 
+  # [+LLVAR_AN+]    two byte variable length ASCII numeral, payload ASCII
   # [+LLVAR_ANS+]    two byte variable length ASCII numeral, payload ASCII+special
+  # [+LLLVAR_AN+]   three byte variable length ASCII numeral, payload ASCII
   # [+LLLVAR_ANS+]   three byte variable length ASCII numeral, payload ASCII+special
   # [+LLVAR_B+]      Two byte variable length binary payload
   # [+LLLVAR_B+]     Three byte variable length binary payload
+  # [+A+]            fixed length letters, represented in ASCII
   # [+N+]            fixed lengh numerals, repesented in ASCII, padding right justified using zeros
   # [+AN+]          fixed lengh ASCII [A-Za-z0-9], padding left justified using spaces.
   # [+ANP+]          fixed lengh ASCII [A-Za-z0-9] and space, padding left, spaces
@@ -70,10 +73,20 @@ module ISO8583
   LLVAR_Z.length  = LL
   LLVAR_Z.codec   = Track2
 
+  # Two byte variable length ASCII numeral, payload ASCII, fixed length, zeropadded (right)
+  LLVAR_AN        = Field.new
+  LLVAR_AN.length = LL
+  LLVAR_AN.codec  = AN_Codec
+
   # Two byte variable length ASCII numeral, payload ASCII+special
   LLVAR_ANS        = Field.new
   LLVAR_ANS.length = LL
   LLVAR_ANS.codec  = ANS_Codec
+
+  # Three byte variable length ASCII numeral, payload ASCII, fixed length, zeropadded (right)
+  LLLVAR_AN        = Field.new
+  LLLVAR_AN.length = LLL
+  LLLVAR_AN.codec  = AN_Codec
 
   # Three byte variable length ASCII numeral, payload ASCII+special
   LLLVAR_ANS        = Field.new
@@ -104,6 +117,10 @@ module ISO8583
   PADDING_LEFT_JUSTIFIED_SPACES = lambda {|val, len|
     sprintf "%-#{len}s", val
   }
+
+  # Fixed length ASCII letters [A-Za-z]
+  A = Field.new
+  A.codec = A_Codec
 
   # Fixed lengh ASCII [A-Za-z0-9], padding left justified using spaces.
   AN = Field.new
