@@ -45,6 +45,8 @@ module ISO8583
   # [+ASCII_Number+]      encodes either a Number or String representation of 
   #                       a number to the ASCII represenation of the number, 
   #                       decodes ASCII  numerals to a number
+  # [+A_Codec+]           passes through ASCII string checking they conform to [A-Za-z]
+  #                       during encoding, no validity check during decoding. 
   # [+AN_Codec+]          passes through ASCII string checking they conform to [A-Za-z0-9]
   #                       during encoding, no validity check during decoding. 
   # [+ANP_Codec+]         passes through ASCII string checking they conform to [A-Za-z0-9 ] 
@@ -108,6 +110,13 @@ module ISO8583
   Packed_Number.decoder = lambda{|encoded|
     d = encoded.unpack("H*")[0].to_i
   }
+
+  A_Codec = Codec.new
+  A_Codec.encoder = lambda{|str|
+    raise ISO8583Exception.new("Invalid value: #{str} must be [A-Za-z]") unless str =~ /^[A-Za-z]*$/
+    str
+  }
+  A_Codec.decoder = PASS_THROUGH_DECODER
 
   AN_Codec = Codec.new
   AN_Codec.encoder = lambda{|str|
