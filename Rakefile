@@ -4,12 +4,16 @@ require "rake/testtask"
 require "rake/clean"
 require "rubygems"
 
+lib = File.expand_path('../lib/', __FILE__)
+$:.unshift lib unless $:.include?(lib)
+require "iso8583/version"
+
 # Some definitions that you'll need to edit in case you reuse this
 # Rakefile for your own project.
 
 SHORTNAME	= "iso8583"	# this should be the rubyforge project name
 DESC		= "Ruby implementation of ISO 8583 financial messaging"
-PKG_VERSION 	= "0.1.4"
+PKG_VERSION 	= ISO8583::VERSION
 LONG_DESC	= <<END_DESC
 Ruby implementation of ISO 8583 financial messaging
 END_DESC
