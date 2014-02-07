@@ -33,6 +33,7 @@ module ISO8583
   # [+ANS+]          fixed length ASCII  [\x20-\x7E], padding left, spaces
   # [+B+]            binary data, padding left using nulls (0x00)
   # [+MMDDhhmmss+]   Date, formatted as described in ASCII numerals
+  # [+MMDD+]         Date, formatted as described in ASCII numerals
   # [+YYMMDDhhmmss+] Date, formatted as named in ASCII numerals
   # [+YYMM+]         Expiration Date, formatted as named in ASCII numerals
   # [+Hhmmss+]       Date, formatted in ASCII hhmmss
@@ -163,6 +164,10 @@ module ISO8583
   YYMM.codec  = YYMMCodec
   YYMM.length = 4
   
+  MMDD        = Field.new
+  MMDD.codec  = MMDDCodec
+  MMDD.length = 4
+
   Hhmmss        = Field.new
   Hhmmss.codec  = HhmmssCodec
   Hhmmss.length = 6

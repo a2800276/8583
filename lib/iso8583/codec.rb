@@ -58,6 +58,9 @@ module ISO8583
   # [+MMDDhhmmssCodec+]   encodes Time, Datetime or String to the described date format, checking 
   #                       that it is a valid date. Decodes to a DateTime instance, decoding and 
   #                       encoding perform validity checks!
+  # [+MMDDCodec+]   encodes Time, Datetime or String to the described date format, checking 
+  #                       that it is a valid date. Decodes to a DateTime instance, decoding and 
+  #                       encoding perform validity checks!
   # [+YYMMDDhhmmssCodec+] encodes Time, Datetime or String to the described date format, checking 
   #                       that it is a valid date. Decodes to a DateTime instance, decoding and 
   #                       encoding perform validity checks!
@@ -195,5 +198,6 @@ module ISO8583
   HhmmssCodec       = _date_codec("%H%M%S")
   YYMMDDhhmmssCodec = _date_codec("%y%m%d%H%M%S")
   YYMMCodec         = _date_codec("%y%m")
+  MMDDCodec         = _date_codec("%m%d")
 
 end
