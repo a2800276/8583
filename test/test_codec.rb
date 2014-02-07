@@ -4,6 +4,24 @@ require 'lib/iso8583'
 include ISO8583
 
 class FieldTest < Test::Unit::TestCase
+  def test_hhmmssCodec
+    dt = HhmmssCodec.decode "121212"
+    assert_equal DateTime, dt.class
+    assert_equal 12, dt.hour
+    assert_equal 12, dt.min
+    assert_equal 12, dt.sec
+    assert_equal DateTime, dt.class
+    
+    assert_raise(ISO8583Exception) {
+      dt = HhmmssCodec.decode "261212"
+    }
+    assert_raise(ISO8583Exception) {
+      dt = HhmmssCodec.encode "121261"
+    }
+    t = Time.new(2002, 10, 31, 2, 2, 2, "+02:00")
+    assert_equal "020202", HhmmssCodec.encode(t)
+
+  end
   def test_MMDDhhmmssCodec
     dt = MMDDhhmmssCodec.decode "1212121212"
     assert_equal DateTime, dt.class
@@ -12,6 +30,7 @@ class FieldTest < Test::Unit::TestCase
     assert_equal 12, dt.hour
     assert_equal 12, dt.min
     assert_equal 12, dt.sec
+    assert_equal DateTime, dt.class
 
     assert_raise(ISO8583Exception) {
       dt = MMDDhhmmssCodec.decode "1312121212"

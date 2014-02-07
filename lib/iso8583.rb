@@ -9,4 +9,5 @@ module ISO8583
   require "iso8583/bitmap"
   require "iso8583/message"
   require "iso8583/util"
+  require "iso8583/version"
 end

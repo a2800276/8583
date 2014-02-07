@@ -234,4 +234,13 @@ class FieldTest < Test::Unit::TestCase
     fld = YYMMDDhhmmss
     assert_equal "740808120000", fld.encode("740808120000")
   end
+  def test_Hhmmss
+    fld = Hhmmss
+    assert_equal "123456", fld.encode("123456")
+    dt, rest = fld.parse("123456")
+    assert_equal 12, dt.hour
+    assert_equal 34, dt.min
+    assert_equal 56, dt.sec
+
+  end
 end

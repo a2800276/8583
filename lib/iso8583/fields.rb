@@ -35,6 +35,7 @@ module ISO8583
   # [+MMDDhhmmss+]   Date, formatted as described in ASCII numerals
   # [+YYMMDDhhmmss+] Date, formatted as named in ASCII numerals
   # [+YYMM+]         Expiration Date, formatted as named in ASCII numerals
+  # [+Hhmmss+]       Date, formatted in ASCII hhmmss
 
 
   # Special form to de/encode variable length indicators, two bytes ASCII numerals 
@@ -161,5 +162,9 @@ module ISO8583
   YYMM        = Field.new
   YYMM.codec  = YYMMCodec
   YYMM.length = 4
+  
+  Hhmmss        = Field.new
+  Hhmmss.codec  = HhmmssCodec
+  Hhmmss.length = 6
 
 end
