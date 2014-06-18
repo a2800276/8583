@@ -119,14 +119,16 @@ module ISO8583
   A_Codec.decoder = PASS_THROUGH_DECODER
 
   AN_Codec = Codec.new
-  AN_Codec.encoder = lambda{|str|
+  AN_Codec.encoder = lambda{|val|
+    str = val.to_s
     raise ISO8583Exception.new("Invalid value: #{str} must be [A-Za-y0-9]") unless str =~ /^[A-Za-z0-9]*$/
     str
   }
   AN_Codec.decoder = PASS_THROUGH_DECODER
 
   ANP_Codec = Codec.new
-  ANP_Codec.encoder = lambda{|str|
+  ANP_Codec.encoder = lambda{|val|
+    str = val.to_s
     raise ISO8583Exception.new("Invalid value: #{str} must be [A-Za-y0-9 ]") unless str =~ /^[A-Za-z0-9 ]*$/
     str
   }
