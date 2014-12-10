@@ -1,4 +1,5 @@
 *.swp
+Gemfile.lock
 doc/
 pkg/
 tmp/
