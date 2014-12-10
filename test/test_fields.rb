@@ -241,6 +241,10 @@ class FieldTest < Test::Unit::TestCase
     assert_equal 12, dt.hour
     assert_equal 34, dt.min
     assert_equal 56, dt.sec
+    
+    assert_raise(ISO8583Exception) {
+      fld.encode 1234567
+    }
 
   end
 end

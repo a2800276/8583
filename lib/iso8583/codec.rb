@@ -137,7 +137,7 @@ module ISO8583
 
   ANS_Codec = Codec.new
   ANS_Codec.encoder = lambda{|str|
-    raise ISO8583Exception.new("Invalid value: #{str} must be [\x20-\x7E]") unless str =~ /^[\x20-\x7E]*$/
+    raise ISO8583Exception.new("Invalid value: #{str} must be [\\x20-\\x7E]") unless str =~ /^[\x20-\x7E]*$/
     str
   }
   ANS_Codec.decoder = PASS_THROUGH_DECODER

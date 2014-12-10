@@ -52,7 +52,11 @@ module ISO8583
     # special treatment, you may need to override this method alltogether.
     # In other cases, the padding has to be implemented by the codec, such as BCD with an odd number of nibbles.
     def encode(value)
-      encoded_value = codec.encode(value) 
+      begin
+        encoded_value = codec.encode(value) 
+      rescue ISO8583Exception
+        raise ISO8583Exception.new($!.message+" (#{name})")
+      end
 
       if padding
         if padding.arity == 1
