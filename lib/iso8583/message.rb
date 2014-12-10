@@ -147,9 +147,13 @@ module ISO8583
     #    mes[2]=47474747                          # bmp 2 is generally the PAN
     #    mes["Primary Account Number"]=47474747   # if thats what you called the field in Message.bmp.
     def []=(key, value)
-      bmp_def              = _get_definition key
-      bmp_def.value        = value
-      @values[bmp_def.bmp] = bmp_def 
+      if value.nil?
+        @values.delete(key)
+      else
+        bmp_def              = _get_definition key
+        bmp_def.value        = value
+        @values[bmp_def.bmp] = bmp_def
+      end
     end
 
     # Retrieve the decoded value of the contents of a bitmap
