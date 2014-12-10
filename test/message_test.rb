@@ -160,4 +160,14 @@ END
     mes2 = BerlinMessage.parse(mes.to_b)
     assert_equal(mes.to_b, mes2.to_b)
   end
+
+  def test_remove_field
+    mes     = BerlinMessage.new
+    mes.mti = "Network Management Request Response Issuer Gateway or Acquirer Gateway"
+    mes[3]  = nil
+
+    assert_nothing_raised do
+      mes.to_b
+    end
+  end
 end
