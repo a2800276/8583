@@ -1,3 +1,8 @@
+0.1.6
+=========
+restrict to ruby < 2
+allow removal of empty fields
+
 0.1.5
 =========
 MMDD Codec
