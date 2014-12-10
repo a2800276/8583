@@ -19,6 +19,9 @@ Gem::Specification.new do |s|
   s.has_rdoc                  = true
   
   s.requirements << "none"
+
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rdoc'
   
   s.files        = Dir.glob("{lib,test}/**/*") + %w(AUTHORS CHANGELOG LICENSE README TODO)
   s.require_path = 'lib'
