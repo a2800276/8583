@@ -1,12 +1,13 @@
 0.1.6
 =========
-restrict to ruby < 2
-allow removal of empty fields
+  restrict to ruby < 2
+  allow removal of empty fields
+  Thanks: Lasse Skindstad Ebert https://github.com/lasseebert
 
 0.1.5
 =========
-MMDD Codec
-BCD encoder checks odd length fields
+  MMDD Codec
+  BCD encoder checks odd length fields
 
 0.1.4
 =========
