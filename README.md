@@ -3,7 +3,7 @@
 This package currently contains code for coding an decoding ISO 8583
 Financial Message.
 
-#####This library has the following features:
+##### Include following features:
 
   1. Supports 128 bits bitmap (automatically).
   2. Supports hexadecimal bitmaps.
@@ -66,34 +66,6 @@ MTI:100 (Authorization Request Acquirer Gateway)
 065                 new bitmap : STRING
 ```
 
-#### ISO
-```ruby
-iso = msg.to_b
-p iso
-```
-
-###### Output
-
-```text
-"0100\xBC\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x0000000300000000000400000000000500000000000606STRING"
-```
-
-#### Parse Message
-```ruby
-parsed = CustomMessage.parse(iso)
-puts parsed
-```
-###### Output
-
-```text
-MTI:100 (Authorization Request Acquirer Gateway)
-
-003            Processing Code : 3
-004       Amount (Transaction) : 4
-005     Amount, Reconciliation : 5
-006 Amount, Cardholder Billing : 6
-065                 new bitmap : STRING
-```
 
 ## Source
-[a2800276](https://github.com/a2800276) is the original author, please give them all the credits.
+Forked from [a2800276/8583](https://github.com/a2800276/8583).
