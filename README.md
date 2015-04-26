@@ -15,7 +15,7 @@ The best place to understand what this library has to offer is reading the
 file. However, one can use it like so:
 
 #### Create defs
-``ruby
+```ruby
 class CustomMessage < ISO8583::Message
         include ISO8583
 
@@ -36,13 +36,13 @@ class CustomMessage < ISO8583::Message
         bmp_alias 4, :amount
         bmp_alias 6, :reconciliation
 end
-``
+```
 
 Once you've defined the fields you'll be using, then you can proceed to create
 your messages.
 
 #### Build Message
-``ruby
+```ruby
 msg = CustomMessage.new(nil)
 
 msg.mti = 100
@@ -53,10 +53,10 @@ msg[6]  = 6
 msg[65] = 'STRING'
 
 puts msg
-``
+```
 ######Output:
 
-``text
+```text
 MTI:100 (Authorization Request Acquirer Gateway)
 
 003            Processing Code : 3
@@ -64,27 +64,28 @@ MTI:100 (Authorization Request Acquirer Gateway)
 005     Amount, Reconciliation : 5
 006 Amount, Cardholder Billing : 6
 065                 new bitmap : STRING
-``
+```
 
 #### ISO
-``ruby
+```ruby
 iso = msg.to_b
 p iso
-``
+```
 
-Output
-``text
-"0100\xBC\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x0000000300000000000400000000000500000000000606STRING"
-``
-
-#### Parse Message
-``ruby
-parsed = CustomMessage.parse(iso)
-puts parsed
-``
 ###### Output
 
-``text
+```text
+"0100\xBC\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x0000000300000000000400000000000500000000000606STRING"
+```
+
+#### Parse Message
+```ruby
+parsed = CustomMessage.parse(iso)
+puts parsed
+```
+###### Output
+
+```text
 MTI:100 (Authorization Request Acquirer Gateway)
 
 003            Processing Code : 3
@@ -92,11 +93,7 @@ MTI:100 (Authorization Request Acquirer Gateway)
 005     Amount, Reconciliation : 5
 006 Amount, Cardholder Billing : 6
 065                 new bitmap : STRING
-``
+```
 
 ## Source
 [a2800276](https://github.com/a2800276) is the original author, please give them all the credits.
-
-    Status API Training Shop Blog About 
-
-    © 2015 GitHub, Inc. Terms Privacy Security Contact 
