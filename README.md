@@ -62,6 +62,4 @@ MTI:100 (Authorization Request Acquirer Gateway)
 065                 new bitmap : STRING
 ```
 
-
-## Source
 Forked from [a2800276/8583](https://github.com/a2800276/8583).
