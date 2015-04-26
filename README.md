@@ -59,7 +59,7 @@ MTI:100 (Authorization Request Acquirer Gateway)
 005     Amount, Reconciliation : 5
 006 Amount, Cardholder Billing : 6
 065                 new bitmap : STRING
-``
+```
 
 #### ISO
 ```ruby
@@ -67,7 +67,7 @@ iso = msg.to_b
 p iso
 ```
 
-Output
+##### Output
 ```text
 "0100\xBC\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x0000000300000000000400000000000500000000000606STRING"
 ```
