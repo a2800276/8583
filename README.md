@@ -31,10 +31,6 @@ class CustomMessage < ISO8583::Message
 
         bmp 65, "new bitmap", LLVAR_ANS, :max => 99
 
-        bmp_alias 2, :pan
-        bmp_alias 3, :proc_code
-        bmp_alias 4, :amount
-        bmp_alias 6, :reconciliation
 end
 ```
 
