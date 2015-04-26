@@ -112,14 +112,20 @@ module ISO8583
     # The value of the MTI (Message Type Indicator) of this message.
     attr_reader :mti 
 
+    # ISO8583 allows hex or binary bitmap, so it should be configurable
+    attr_reader :use_hex_bitmap
+
     # Instantiate a new instance of this type of Message
     # optionally specifying an mti. 
-    def initialize(mti = nil)
+    def initialize(mti = nil, use_hex_bitmap = false)
       # values is an internal field used to collect all the
       # bmp number | bmp name | field en/decoders | values
       # which are set in this message.
       @values = {}
+
       self.mti = mti if mti
+      @use_hex_bitmap = use_hex_bitmap
+
     end
 
     # Set the mti of the Message using either the actual value
@@ -208,7 +214,12 @@ module ISO8583
         enc_value = @values[bmp_num].encode
         message << enc_value
       end
-      [ bitmap.to_bytes, message ]
+
+      if use_hex_bitmap
+	      [bitmap.to_hex, message]
+      else
+	      [bitmap.to_bytes, message]
+      end
     end
 
     def _get_definition(key) #:nodoc:
@@ -343,12 +354,20 @@ module ISO8583
       end
       
       # Parse the bytes `str` returning a message of the defined type.
-      def parse(str)
-        message = self.new
+      def parse(str, use_hex_bitmap = false)
+        message = self.new(nil, use_hex_bitmap)
+
         message.mti, rest = _mti_format.parse(str)
-        bmp,rest = Bitmap.parse(rest)
+
+        bmp, rest = Bitmap.parse(rest, use_hex_bitmap)
+
         bmp.each {|bit|
           bmp_def      = _definitions[bit]
+
+	  unless bmp_def
+		  raise ISO8583ParseException.new "The message contains fields not defined"
+	  end
+
           value, rest  = bmp_def.field.parse(rest)
           message[bit] = value
         }
