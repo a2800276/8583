@@ -5,8 +5,8 @@ Financial Message.
 
 ###### Include the following features:
 
-  1. Supports 128 bits bitmap (automatically).
-  2. Supports hexadecimal bitmaps.
+  1. Support for 128 bits bitmap .
+  2. Hexadecimal bitmaps.
 
 ## Usage
 
