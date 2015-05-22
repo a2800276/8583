@@ -3,6 +3,16 @@
 This package currently contains code for coding an decoding ISO 8583
 Financial Message.
 
+== PLEASE NOTE: PROJECT ABANDONDED ==
+
+Currently, I do not have time to maintain this project properly. Everything was happy
+in Ruby 1.8. Unfortunately with string encoding around 1.9 and later, dealing with
+bytes has become fairly tedious in ruby. The existing tests no longer work, because for
+some reason test/unit is no longer properly supported.
+
+If anyone cares to bring the build/test/infrastructure up to "modern" ruby standard, please
+do so. I don't have the time at the moment.
+
 == Using
 
 The best place to get started using the library is the documentation of the
