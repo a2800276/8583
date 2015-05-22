@@ -11,7 +11,7 @@ bytes has become fairly tedious in ruby. The existing tests no longer work, beca
 some reason test/unit is no longer properly supported.
 
 If anyone cares to bring the build/test/infrastructure up to "modern" ruby standard, please
-do so. I don't have the time at the moment.
+get in touch. I don't have the time at the moment but would be happy to assist.
 
 == Using
 
