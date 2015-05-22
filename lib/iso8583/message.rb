@@ -194,6 +194,17 @@ module ISO8583
       str
     end
 
+    # Returns a hash representation of the message,
+    # using alias as key if defined, otherwise use field name
+    def to_hash
+      @values.map{|bmp|
+        aliases = self.class.instance_variable_get(:@aliases) || {}
+        name = aliases[bmp[0]] || bmp[1].instance_variable_get(:@name)
+        value = bmp[1].instance_variable_get(:@value)
+        Hash[*[name, value]]
+      }.reduce(:merge)
+    end
+
 
     # METHODS starting with an underscore are meant for
     # internal use only ...
@@ -329,6 +340,8 @@ module ISO8583
       #    mes[2] = 1234
       #
       def bmp_alias(bmp, aliaz)
+        @aliases ||= {}
+        @aliases[bmp] = aliaz
         define_method (aliaz) {
           bmp_ = @values[bmp]
           bmp_ ? bmp_.value : nil
