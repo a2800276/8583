@@ -1,3 +1,12 @@
+0.2.0
+=========
+  Minor version changed.
+  Allow 128 bitmap.
+  Allow hexadecimal bitmap.
+  Allow to declare mandatory fields.
+  Works on ruby 2.x, tests are passing.
+  Thanks: MaG, https://github.com/MaG21
+
 0.1.6
 =========
   restrict to ruby < 2

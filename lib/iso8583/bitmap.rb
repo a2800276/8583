@@ -102,9 +102,7 @@ module ISO8583
 		    end
       end
 
-      0.upto(bmp.length-1) do |i|
-        @bmp[i] = (bmp[i,1] == "1")
-      end
+	0.upto(bmp.length-1) {|i| @bmp[i] = (bmp[i,1] == "1") }
     end
 
     class << self

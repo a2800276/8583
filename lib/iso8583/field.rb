@@ -11,7 +11,13 @@ module ISO8583
     attr_accessor :max
 
     attr_writer   :name
+    attr_writer   :required
+
     attr_accessor :bmp
+
+    def required?
+	    !!@required
+    end
 
     def name
       "BMP #{bmp}: #{@name}"

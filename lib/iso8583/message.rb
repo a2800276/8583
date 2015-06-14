@@ -1,3 +1,4 @@
+# encoding: binary
 # Copyright 2009 by Tim Becker (tim.becker@kuriostaet.de)
 # MIT License, for details, see the LICENSE file accompaning
 # this distribution
@@ -107,26 +108,26 @@ module ISO8583
   # figuring out the correct fields to use defining the Message class via
   # bmp.
   #    
-  class Message
+class Message
+	# The value of the MTI (Message Type Indicator) of this message.
+	attr_reader :mti 
 
-    # The value of the MTI (Message Type Indicator) of this message.
-    attr_reader :mti 
+	# ISO8583 allows hex or binary bitmap, so it should be configurable
+	attr_reader :use_hex_bitmap
 
-    # ISO8583 allows hex or binary bitmap, so it should be configurable
-    attr_reader :use_hex_bitmap
+	# Instantiate a new instance of this type of Message
+	# optionally specifying an mti. 
+	def initialize(mti = nil, use_hex_bitmap = false)
+		# values is an internal field used to collect all the
+		# bmp number | bmp name | field en/decoders | values
+		# which are set in this message.
+		@values = {}
 
-    # Instantiate a new instance of this type of Message
-    # optionally specifying an mti. 
-    def initialize(mti = nil, use_hex_bitmap = false)
-      # values is an internal field used to collect all the
-      # bmp number | bmp name | field en/decoders | values
-      # which are set in this message.
-      @values = {}
+		self.mti = mti if mti
+		@use_hex_bitmap = use_hex_bitmap
 
-      self.mti = mti if mti
-      @use_hex_bitmap = use_hex_bitmap
-
-    end
+		@required_fields = []
+	end
 
     # Set the mti of the Message using either the actual value
     # or the name of the message type that was defined using
@@ -203,24 +204,39 @@ module ISO8583
 
     # METHODS starting with an underscore are meant for
     # internal use only ...
+    #
+    # MaG note:
+    #  *WRONG* Ruby unlike other programming languages (aka Python)
+    #  provides the necessary mechanisms to implement access control
+    #  within a class, there's no need to use such thing like
+    #  underscores, dunders or alikes.
+    #
+    #  In future versions I plan to fix this, along with the
+    #  Indentation.
     
     # Returns an array of two byte arrays:
     # [bitmap_bytes, message_bytes]
-    def _body
-      bitmap  = Bitmap.new
-      message = ""
-      @values.keys.sort.each do |bmp_num|
-        bitmap.set(bmp_num)
-        enc_value = @values[bmp_num].encode
-        message << enc_value
-      end
+	def _body
+		unless required_fields_included?
+			raise ISO8583MissingFieldException,
+				"Fields `#{get_missing_fields.join(', ')}' are missing."
+		end
 
-      if use_hex_bitmap
-	      [bitmap.to_hex, message]
-      else
-	      [bitmap.to_bytes, message]
-      end
-    end
+		bitmap  = Bitmap.new
+		message = ""
+
+		@values.keys.sort.each do |bmp_num|
+			bitmap.set(bmp_num)
+			enc_value = @values[bmp_num].encode
+			message << enc_value
+		end
+
+		if use_hex_bitmap
+		      [bitmap.to_hex, message]
+		else
+		      [bitmap.to_bytes, message]
+		end
+	end
 
     def _get_definition(key) #:nodoc:
       b = self.class._definitions[key]
@@ -307,19 +323,24 @@ module ISO8583
       #    mes = MyMessage.new
       #    mes[2] = 474747474747 # or mes["PAN"] = 4747474747
       #
-      def bmp(bmp, name, field, opts = nil)
-        @defs ||= {}
+	def bmp(bmp, name, field, opts = nil)
+		@defs            ||= {}
+		@required_fields ||= []
 
-        field = field.dup
-        field.name = name
-        field.bmp  = bmp
-        _handle_opts(field, opts) if opts
-        
-        bmp_def = BMP.new bmp, name, field
+		field = field.dup
+		field.name = name
+		field.bmp  = bmp
+		_handle_opts(field, opts) if opts
 
-        @defs[bmp]  = bmp_def
-        @defs[name] = bmp_def
-      end
+		bmp_def = BMP.new bmp, name, field
+
+		if field.required?
+			@required_fields.push bmp
+		end
+
+		@defs[bmp]  = bmp_def
+		@defs[name] = bmp_def
+	end
 
       # Create an alias to access bitmaps directly using a method.
       # Example:
@@ -354,25 +375,34 @@ module ISO8583
       end
       
       # Parse the bytes `str` returning a message of the defined type.
-      def parse(str, use_hex_bitmap = false)
-        message = self.new(nil, use_hex_bitmap)
+	def parse(str, use_hex_bitmap = false)
+		message = self.new(nil, use_hex_bitmap)
 
-        message.mti, rest = _mti_format.parse(str)
+		message.mti, rest = _mti_format.parse(str)
 
-        bmp, rest = Bitmap.parse(rest, use_hex_bitmap)
+		bmp, rest = Bitmap.parse(rest, use_hex_bitmap)
 
-        bmp.each {|bit|
-          bmp_def      = _definitions[bit]
+		ary = _get_required_fields
+		bmp.each do|bit|
+			ary.delete bit
+			bmp_def      = _definitions[bit]
 
-	  unless bmp_def
-		  raise ISO8583ParseException.new "The message contains fields not defined"
-	  end
+			unless bmp_def
+				raise ISO8583ParseException.new "The message contains fields not defined"
+			end
 
-          value, rest  = bmp_def.field.parse(rest)
-          message[bit] = value
-        }
-        message
-      end
+			value, rest  = bmp_def.field.parse(rest)
+			message[bit] = value
+		end
+
+		unless ary.empty?
+			raise ISO8583MissingFieldException,
+				"Fields `#{ary.join(', ')}' are missing."
+		end
+
+
+		message
+	end
       
       # access the mti definitions applicable to the Message
       #
@@ -392,6 +422,10 @@ module ISO8583
       #
       def _definitions
         @defs
+      end
+
+      def _get_required_fields
+	      @required_fields
       end
 
       # Returns the field definition to format the mti.
@@ -418,7 +452,19 @@ module ISO8583
         }
       end
     end
-  end
+
+ 	private
+
+	def required_fields_included?
+		self.class._get_required_fields.all? {|pos| @values[pos]}
+	end
+
+	def get_missing_fields
+		self.class._get_required_fields.select do|pos|
+			not @values[pos]
+		end
+	end
+end
 
   # Internal class used to tie together name, bitmap number, field en/decoder
   # and the value of the corresponding field
