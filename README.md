@@ -7,6 +7,7 @@ Financial Message.
 
   1. Support for 128 bits bitmap .
   2. Hexadecimal bitmaps.
+  3. Mandatory fields.
 
 ## Usage
 
