@@ -232,4 +232,76 @@ module ISO8583
 	end
 end
 
+	class VariableBCDBCDField < VariableBCDField
+ 
+		def encode(value)
+			begin
+				encoded_value = codec.encode(value) 
+			rescue ISO8583Exception
+				raise ISO8583Exception.new($!.message+" (#{name})")
+			end
+
+			if padding
+				if padding.arity == 1
+					encoded_value = padding.call(encoded_value)
+				elsif padding.arity == 2
+					encoded_value = padding.call(encoded_value, length)
+				end
+			end
+
+			len_str = ''
+
+			len_str = case length
+				  when 2
+					  if encoded_value.length > 99
+						  raise ISO8583Exception.new("Invalid length (#{length}) for '#{name}' field")
+					  end
+
+					  bcd_encode_length(encoded_value, 2)
+				  when 3
+					  if encoded_value.length > 999
+						  raise ISO8583Exception.new("Invalid length (#{length}) for '#{name}' field")
+					  end
+
+					  bcd_encode_length(encoded_value, 3)
+				  else
+					  raise ISO8583Exception.new("Invalid length (#{length}) for '#{name}' field")
+				  end 
+
+			len_str + encoded_value
+		end
+
+
+		private
+
+		def variable_info(len, raw)
+			tmp_len = bcd_length(len)
+
+			len = raw[0, tmp_len].unpack('H*')[0].to_i
+
+			[bcd_length(len), raw[tmp_len..-1]]
+		end
+
+		def bcd_encode_length(value, size)
+			len_str = (value*2).length.to_s
+
+			if size == 2
+				ret = if value.length < 10
+					[len_str].pack('h*')
+				else
+					[len_str].pack('H*')
+				end
+				return ret
+			end
+
+			if value.length < 10
+				'' << "\x00" << [len_str].pack('h*')
+			elsif value.length < 100
+				'' << "\x00" << [len_str].pack('H*')
+			else
+				'' << [len_str[0]].pack('h*') << [len_str[1,2]].pack('H*')
+			end
+		end
+
+	end
 end
