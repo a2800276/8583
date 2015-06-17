@@ -187,7 +187,7 @@ module ISO8583
 			raise ISO8583Exception.new "no MTI set!" unless mti
 
 			mti_enc = self.class._mti_format.encode(mti)
-			mti_enc << _body.join
+			(mti_enc << _body.join).encode 'binary'
 		end
 
 		# Returns a nicely formatted representation of this

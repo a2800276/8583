@@ -60,6 +60,11 @@ module ISO8583
   LL_BCD.length = 2
   LL_BCD.codec  = Packed_Number
 
+  LLL_BCD_ANS        = VariableBCDField.new
+  LLL_BCD_ANS.length = 3
+  LLL_BCD_ANS.codec  = ANS_Codec
+
+
   # Two byte variable length ASCII numeral, payload ASCII numerals
   LLVAR_N        = Field.new
   LLVAR_N.length = LL
@@ -109,16 +114,20 @@ module ISO8583
   # Fixed lengh numerals, repesented in ASCII, padding right justified using zeros
   N = Field.new
   N.codec = ASCII_Number
-  N.padding = lambda {|val, len|
-    sprintf("%0#{len}d", val)
-  }
+  N.padding = lambda {|val, len| sprintf("%0#{len}d", val) }
 
   N_BCD = BCDField.new
   N_BCD.codec = Packed_Number
 
-  PADDING_LEFT_JUSTIFIED_SPACES = lambda {|val, len|
-    sprintf "%-#{len}s", val
+  N_BCD_PADDED         = BCDField.new
+  N_BCD_PADDED.codec   = Packed_Number
+  N_BCD_PADDED.padding = lambda {|val, len| 
+	  delta = len - val.length
+
+	  "\x00"*delta + val # padding left
   }
+
+  PADDING_LEFT_JUSTIFIED_SPACES = lambda {|val, len| sprintf "%-#{len}s", val }
 
   # Fixed length ASCII letters [A-Za-z]
   A = Field.new
