@@ -190,6 +190,30 @@ module ISO8583
 			(mti_enc << _body.join).encode 'binary'
 		end
 
+		def dump(align=16)
+			data = to_b
+
+			ascii = lambda {|b| (b =~ /[[:print:]]/) ? b : '.'}
+
+			ary = []
+			f = data.bytes.map do|byte|
+				if (ary.length % align).zero? and not ary.length.zero?
+					a = ary.map(&ascii).tap { ary = [] }.join + "\n"
+				else
+					ary << byte.chr
+					"%02X" % byte
+				end
+			end
+
+			str = '  ' + f.join('  ').strip
+
+			if (ary.length % align).nonzero?
+				str + '    '*(align - ary.length) + '  ' + ary.map(&ascii).join + "\n"
+			else
+				str
+			end
+		end
+
 		# Returns a nicely formatted representation of this
 		# message.
 		def to_s
