@@ -73,7 +73,7 @@ module ISO8583
     #	01001100110000011010110110010100100110011000001101011011001010
     def to_s
       #check whether any `high` bits are set
-      ret           = (65..128).one? {|bit| self[bit]}
+      ret           = (65..128).any? {|bit| self[bit]}
       high, @bmp[0] = ret ? [128, true] : [64, false]
 
       str = ""
