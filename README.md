@@ -8,6 +8,7 @@ Financial Message.
   1. Support for 128 bits bitmap .
   2. Hexadecimal bitmaps.
   3. Mandatory fields.
+  4. Beautiful message dumps for developer happiness.
 
 ## Usage
 
@@ -88,4 +89,47 @@ MTI:100 (Authorization Request Acquirer Gateway)
 005     Amount, Reconciliation : 5
 006 Amount, Cardholder Billing : 6
 065                 new bitmap : STRING
+```
+
+## Dumps
+
+The alignment is set to 16 characters by default.
+
+```ruby
+# ...
+puts message.dump
+```
+sample output:
+
+```text
+  01  00  72  38  01  00  04  C5  00  14  04  12  34  10  00  00  ..r8........4...
+  00  00  00  00  00  07  28  09  46  28  00  00  23  09  46  01  ......(.F(..#.F.
+  28  00  03  31  32  33  34  35  36  30  30  30  30  36  35  39  (..1234560000659
+  31  32  33  34  35  36  37  38  39  30  31  32  33  34  35  00  123456789012345.
+  32  38  31  37  00  02  31  32  00  11  4E  43  20  32  2E  33  2817..12..NC 2.3
+  34  2D  72  33  00  09  31  32  33  34  35  36  37  38  39      4-r3..123456789
+```
+  
+Although, one can set a different alignment!
+
+```ruby
+# ...
+# 8 characters alignment
+puts message.dump(8)
+```
+sample output:
+
+```text
+  01  00  72  38  01  00  04  C5  ..r8....
+  14  04  12  34  10  00  00  52  ...4...R
+  00  00  00  00  07  28  09  46  .....(.F
+  00  00  23  09  46  01  07  28  ..#.F..(
+  03  31  32  33  34  35  36  30  .1234560
+  30  30  36  35  39  39  31  32  00659912
+  34  35  36  37  38  39  30  31  45678901
+  33  34  35  00  04  32  38  31  345..281
+  00  02  31  32  00  11  4E  43  ..12..NC
+  32  2E  33  2E  34  2D  72  33  2.3.4-r3
+  09  31  32  33  34  35  36  37  .1234567
+  39                              9
 ```
