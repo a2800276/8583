@@ -45,7 +45,7 @@ module ISO8583
   LL.length  = 2
   LL.codec   = ASCII_Number
   LL.padding = lambda {|value|
-    sprintf("%02d", value)
+    sprintf("%02d", value.to_i)
   }
   # Special form to de/encode variable length indicators, three bytes ASCII numerals
   LLL         = Field.new
@@ -53,7 +53,7 @@ module ISO8583
   LLL.length  = 3
   LLL.codec   = ASCII_Number
   LLL.padding = lambda {|value|
-    sprintf("%03d", value)
+    sprintf("%03d", value.to_i)
   }
 
   LL_BCD        = VariableBCDBCDField.new
@@ -114,7 +114,7 @@ module ISO8583
   # Fixed lengh numerals, repesented in ASCII, padding right justified using zeros
   N = Field.new
   N.codec = ASCII_Number
-  N.padding = lambda {|val, len| sprintf("%0#{len}d", val) }
+  N.padding = lambda {|val, len| sprintf("%0#{len}d", val.to_i) }
 
   N_BCD = BCDField.new
   N_BCD.codec = Packed_Number
