@@ -19,22 +19,22 @@ module ISO8583
   #
   # Convert a String containing hex data to
   # a String containing the corresponding bytes:
-  # 
+  #
   #   hex2b "abcd12" => "\xa\cd\12"
   #
   def hex2b(hex_string)
-   
+
     string = hex_string.gsub(/\s+/, "")
-     
+
     raise ISO8583Exception.new("Invalid Hex chars: #{hex_string}") unless string =~ /^[A-Fa-f0-9]*$/
     raise ISO8583Exception.new("Uneven number of Hex chars #{hex_string}") unless ( (string.length % 2) == 0)
-    
+
     string = [string].pack("H*")
     string.force_encoding('UTF-8')
-    
+
   end
 
-  
+
   def _conv(str, mapping)
     _str = ""
     str.each_byte{|byte|
@@ -47,7 +47,7 @@ module ISO8583
   # Convert a String of ASCII chars to EBCDIC
   #
   def ascii2ebcdic(ascii)
-    _conv(ascii, US_ASCII2IBM037)
+    _conv(ascii, US_ASCII2IBM037).force_encoding('UTF-8')
   end
 
   #
