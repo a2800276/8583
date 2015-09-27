@@ -47,7 +47,7 @@ module ISO8583
   # Convert a String of ASCII chars to EBCDIC
   #
   def ascii2ebcdic(ascii)
-    _conv(ascii, US_ASCII2IBM037).force_encoding('UTF-8')
+    _conv(ascii, US_ASCII2IBM037)
   end
 
   #
