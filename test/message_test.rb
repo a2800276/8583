@@ -45,6 +45,17 @@ class MessageTest < Test::Unit::TestCase
     assert_equal 1430, mes.mti
   end
 
+  def test_rescue_standard_error
+    rescued = false
+    begin
+      BerlinMessage.parse("bogus")
+    rescue => error
+      rescued = true
+    end
+
+    assert rescued
+  end
+
   def test_to_s
     mes     = BerlinMessage.new
     mes.mti = "Network Management Request Response Issuer Gateway or Acquirer Gateway" 
