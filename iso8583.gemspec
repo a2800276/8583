@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.description = "Ruby implementation of ISO 8583 financial messaging"
  
   s.required_rubygems_version = ">= 1.3.6"
-  s.required_ruby_version     = "<2"
+  s.required_ruby_version     = ">= 1.9"
   s.rubyforge_project         = "iso8583"
   s.has_rdoc                  = true
   

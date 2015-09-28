@@ -1,5 +1,6 @@
-Mon Sep 28 
-=============================
+0.2.0
+=========
+  no more 1.8 compatibility, byte encoding for 1.9+, ci
   Inherit ISOException from StandardError
   Add bundler stuff, and dev dependancy for test-unit which was removed
      for no good reason in 2.2
