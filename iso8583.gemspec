@@ -23,4 +23,7 @@ Gem::Specification.new do |s|
   
   s.files        = Dir.glob("{lib,test}/**/*") + %w(AUTHORS CHANGELOG LICENSE README TODO)
   s.require_path = 'lib'
+
+  s.add_development_dependency("rake")
+  s.add_development_dependency("test-unit")
 end

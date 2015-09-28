@@ -1,6 +1,8 @@
-Mon Sep 28 12:16:28 CEST 2015
+Mon Sep 28 
 =============================
   Inherit ISOException from StandardError
+  Add bundler stuff, and dev dependancy for test-unit which was removed
+     for no good reason in 2.2
 
 0.1.6
 =========
