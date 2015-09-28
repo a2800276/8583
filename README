@@ -19,6 +19,13 @@ The best place to get started using the library is the documentation of the
 Message class. Once a stable state is reached, this should be the only
 class you need to use ...
 
+== Developing
+
+In case you're using a ruby version >= 2.2, test-unit is no longer in
+the std lib, so it needs to be available. Bundler installs this, if not
+using bundler, you need to run `gem install test-unit` before running
+the tests.
+
 == Installing
 
 You can install the +iso8583+ package by executing:
