@@ -17,9 +17,7 @@ module ISO8583
     # not, this initializes and empty bitmap.
     def initialize(message = nil)
       @bmp = Array.new(128, false)
-      if !message
-
-      else
+      if message
         initialize_from_message message
       end
     end
@@ -76,7 +74,7 @@ module ISO8583
           break
         end
       }
-      str = ""
+      str = "".force_encoding("ASCII-8BIT")
       1.upto(self[1] ? 128 : 64) {|i|
         str << (self[i] ? "1" : "0")
       }
