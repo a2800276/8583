@@ -29,17 +29,16 @@ module ISO8583
     raise ISO8583Exception.new("Invalid Hex chars: #{hex_string}") unless string =~ /^[A-Fa-f0-9]*$/
     raise ISO8583Exception.new("Uneven number of Hex chars #{hex_string}") unless ( (string.length % 2) == 0)
 
-    string = [string].pack("H*")
-    string.force_encoding('UTF-8')
+    [string].pack("H*").force_encoding('ASCII-8BIT')
 
   end
 
 
   def _conv(str, mapping)
-    _str = ""
+    _str = "".force_encoding('ASCII-8BIT')
     str.each_byte{|byte|
-        _str << [mapping[byte]].pack("c")
-      }
+      _str << [mapping[byte]].pack("C")
+    }
     _str
   end
 

@@ -3,6 +3,7 @@ Mon Sep 28
   Inherit ISOException from StandardError
   Add bundler stuff, and dev dependancy for test-unit which was removed
      for no good reason in 2.2
+  Use ASCII for all forced_encodings
 
 0.1.6
 =========
