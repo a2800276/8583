@@ -27,6 +27,6 @@ class UtilTest < Test::Unit::TestCase
   end
 
   def test_ascii2ebcdic
-    assert_equal "\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9", ascii2ebcdic("0123456789")
+    assert_equal "\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9".force_encoding('ASCII-8BIT'), ascii2ebcdic("0123456789")
   end
 end

@@ -173,8 +173,10 @@ module ISO8583
     # Retrieve the byte representation of the bitmap.
     def to_b
       raise ISO8583Exception.new "no MTI set!" unless mti
-      mti_enc = self.class._mti_format.encode(mti)
-      mti_enc << _body.join
+      mti_enc = self.class._mti_format.encode(mti) 
+      str_body=""
+      _body.map {|b| str_body+=b.force_encoding('ASCII-8BIT');} 
+      mti_enc << str_body
     end
 
     # Returns a nicely formatted representation of this
