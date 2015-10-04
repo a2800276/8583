@@ -2,8 +2,7 @@
 # MIT License, for details, see the LICENSE file accompaning
 # this distribution
 
-require 'lib/iso8583'
-
+require_relative '../iso8583.rb'
 
 # Example of a protocol specification based on:
 # http://www.berlin-group.org/documents/BG_Authorisation_3.0.pdf

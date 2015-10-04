@@ -1,3 +1,4 @@
+# encoding: binary
 require 'lib/iso8583'
 require 'test/unit'
 

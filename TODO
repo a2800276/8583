@@ -1,10 +1,6 @@
 
-* mti_required : or something of the sort to indicate which fields are
-     required/mirrored/conditional for each message type
-
 * decode_check : currently the codecs are very liberal about what to accept
     or parse. E.g. if an invalid date is received, it doesn't complain. Consider
     collecting the errors and presenting them through in interface so
     it may be decided after parsing the message whether to reject it or no
 
-* general cleanup/license/docs/readme

@@ -103,8 +103,9 @@ class FieldTest < Test::Unit::TestCase
     assert_raise(ISO8583Exception) {
       dt = A_Codec.encode "!!!"
     }
-    assert_equal "bla", AN_Codec.encode("bla")
-    assert_equal "bla", AN_Codec.decode("bla")
+
+    assert_equal "bla", A_Codec.encode("bla")
+    assert_equal "bla", A_Codec.decode("bla")
   end
 
   def test_AN_Codec
