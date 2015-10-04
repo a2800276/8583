@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
  
 	s.has_rdoc     = true
 
+	s.add_development_dependency("rake")
 	s.add_dependency('test-unit', '~> 3.0.0')
 
 	s.files        = Dir.glob("{lib,test}/**/*") + %w(AUTHORS CHANGELOG LICENSE README TODO)
