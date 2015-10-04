@@ -187,7 +187,11 @@ module ISO8583
 			raise ISO8583Exception.new "no MTI set!" unless mti
 
 			mti_enc = self.class._mti_format.encode(mti)
-			(mti_enc << _body.join).encode 'binary'
+
+			str_body = ""
+			_body.map {|b| str_body += b.force_encoding('ASCII-8BIT') }
+
+			mti_enc << str_body
 		end
 
 		def dump(align=16)
