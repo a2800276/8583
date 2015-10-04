@@ -33,7 +33,7 @@ module ISO8583
                    raise ISO8583Exception.new("Cannot determine the length of '#{name}' field")
                  end
 
-      raw_value = raw[0,len]
+      raw_value = raw.byteslice(0,len)
       
       # make sure we have enough data ...
       if raw_value.length != len
@@ -41,7 +41,7 @@ module ISO8583
         raise ISO8583ParseException.new(mes)
       end
 
-      rest = raw[len, raw.length]
+      rest = raw.byteslice(len, raw.length)
       begin
         real_value = codec.decode(raw_value)
       rescue
