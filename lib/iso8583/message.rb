@@ -526,6 +526,5 @@ module ISO8583
 			field.encode(value)
 		end
 	end
-
 end
 

@@ -6,9 +6,18 @@ include ISO8583
 
 class UtilTest < Test::Unit::TestCase
   def test_hex2b
-    assert_equal "\xab\xcd\x12", hex2b("abcd12")
-    assert_equal "\xab\xcd\x12", hex2b("a b c d 1 2")
-    assert_equal "\xab\xcd\x12", hex2b("ABCD12")
+    # weird ruby 2.0 workaround:
+    # literal:
+    #   "\xab\xcd\x12"
+    # is interpretted as:
+    #   "\xAB\xCD\u0012"
+    # ...force_encoding(...) fixes this.
+
+    expected = "\xab\xcd\x12".force_encoding("ASCII-8BIT")
+
+    assert_equal expected, hex2b("abcd12")
+    assert_equal expected, hex2b("a b c d 1 2")
+    assert_equal expected, hex2b("ABCD12")
     assert_raise(ISO8583Exception){
       # non hex
       hex2b("ABCDEFGH")
@@ -28,6 +37,6 @@ class UtilTest < Test::Unit::TestCase
   end
 
   def test_ascii2ebcdic
-    assert_equal "\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9", ascii2ebcdic("0123456789")
+    assert_equal "\xf0\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9".force_encoding('ASCII-8BIT'), ascii2ebcdic("0123456789")
   end
 end

@@ -76,7 +76,7 @@ module ISO8583
                 when Fixnum
                   raise ISO8583Exception.new("Too long: #{value} (#{name})! length=#{length}")  if encoded_value.length > length
                   raise ISO8583Exception.new("Too short: #{value} (#{name})! length=#{length}") if encoded_value.length < length
-                  "" 
+                  "".force_encoding("ASCII-8BIT")
                 when Field
                   raise ISO8583Exception.new("Max lenth exceeded: #{value}, max: #{max}") if max && encoded_value.length > max
                   length.encode(encoded_value.length)

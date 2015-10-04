@@ -1,17 +1,25 @@
+<<<<<<< HEAD
 
 0.3.0
 =========
+MaG
+  Behaviour Driven Tests (Rspec)
   Remove deprected file.
-  Fix indentation in the message.rb file.
-
-0.2.0
-=========
+  Fix indentation in the message.rb file. (not ready)
   Minor version changed.
   Allow 128 bitmap.
   Allow hexadecimal bitmap.
   Allow to declare mandatory fields.
   Works on ruby 2.x, tests are passing.
-  Thanks: MaG, https://github.com/MaG21
+  Message dumps
+
+0.2.0
+=========
+  no more 1.8 compatibility, byte encoding for 1.9+, ci
+  Inherit ISOException from StandardError
+  Add bundler stuff, and dev dependancy for test-unit which was removed
+     for no good reason in 2.2
+  Use ASCII for all forced_encodings
 
 0.1.6
 =========

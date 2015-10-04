@@ -133,3 +133,21 @@ sample output:
   09  31  32  33  34  35  36  37  .1234567
   39                              9
 ```
+
+## Installing
+
+You can install the last version of the +iso8583+ package by executing:
+
+	gem install iso8583 
+
+## Source
+
+The source is most readily available on github[http://github.com/a2800276/8583].
+
+## Mailing List
+
+In case you discover bugs, spelling errors, offer suggestions for
+improvements or would like to help out with the project, you can contact
+me directly (tim@kuriositaet.de).
+
+[![Build Status](https://travis-ci.org/a2800276/8583.svg?branch=master)](https://travis-ci.org/a2800276/8583)
