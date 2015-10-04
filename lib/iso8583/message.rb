@@ -38,7 +38,7 @@ module ISO8583
 			(...)
 		end
 
-	This basically defines to message types, 1100 and 1110 which may
+	This basically defines two message types, 1100 and 1110 which may
 	be accessed later either via their name or value:
 
 		mes = MyMessage.new 1100
