@@ -123,9 +123,11 @@ end
 # `test/test*.rb`. The task itself can be run with a call to `rake test`
 
 Rake::TestTask.new do |t|
+  warn "\n[DEPRECATION] `rake test` is deprecated.  Please use `rspec` instead.\n\n"
   t.libs << "test"
   t.libs << "."
   t.ruby_opts = ["-rubygems"]
   t.test_files = FileList["test/*.rb"]
   t.verbose = true
 end
+
