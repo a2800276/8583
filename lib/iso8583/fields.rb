@@ -56,9 +56,9 @@ module ISO8583
     sprintf("%03d", value.to_i)
   }
 
-  LL_BCD        = VariableBCDBCDField.new
+  LL_BCD        = BCDField.new
   LL_BCD.length = 2
-  LL_BCD.codec  = Packed_BCD
+  LL_BCD.codec  = Packed_Number
 
   LLL_BCD_ANS        = VariableBCDField.new
   LLL_BCD_ANS.length = 3
