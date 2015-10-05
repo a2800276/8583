@@ -122,9 +122,9 @@ module ISO8583
   N_BCD_PADDED         = BCDField.new
   N_BCD_PADDED.codec   = Packed_Number
   N_BCD_PADDED.padding = lambda {|val, len| 
-	  delta = len - val.length
+    delta = len - val.length
 
-	  "\x00"*delta + val # padding left
+    "\x00"*delta + val # padding left
   }
 
   PADDING_LEFT_JUSTIFIED_SPACES = lambda {|val, len| sprintf "%-#{len}s", val }

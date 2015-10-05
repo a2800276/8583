@@ -117,8 +117,8 @@ module ISO8583
   Packed_BCD = Codec.new
   Packed_BCD.encoder = Packed_Number.encoder
   Packed_BCD.decoder = lambda {|encoded|
-	  val = encoded.unpack("H*")[0]
-	  val = val.length % 2 == 0 ? val : "0"+val
+    val = encoded.unpack("H*")[0]
+    val = val.length % 2 == 0 ? val : "0"+val
   }
 
 

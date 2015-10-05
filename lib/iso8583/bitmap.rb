@@ -22,7 +22,7 @@ module ISO8583
     end
     
     def hex_bitmap?
-	    !!@hex_bitmap
+      !!@hex_bitmap
     end
 
     # yield once with the number of each set field.
@@ -66,11 +66,11 @@ module ISO8583
     alias_method :to_b, :to_bytes
 
     def to_hex
-	    "%02x" % self.to_s.to_i(2)
+      "%02x" % self.to_s.to_i(2)
     end
 
     # Generate a String representation of this bitmap in the form:
-    #	01001100110000011010110110010100100110011000001101011011001010
+    #  01001100110000011010110110010100100110011000001101011011001010
     def to_s
       #check whether any `high` bits are set
       ret           = (65..128).any? {|bit| self[bit]}
@@ -78,7 +78,7 @@ module ISO8583
 
       str = ""
       1.upto(high) do|i|
-	      str << (self[i] ? '1' : '0')
+        str << (self[i] ? '1' : '0')
       end
 
       str
@@ -89,33 +89,33 @@ module ISO8583
 
     def initialize_from_message(message)
       bmp = if hex_bitmap?
-		    message[0..15].hex.to_s(2).rjust(64, '0')
-	    else
-		    message.unpack("B64")[0]
-	    end
-
-      if bmp[0,1] == "1"
-	      bmp = if hex_bitmap?
-			    message[0..31].hex.to_s(2).rjust(128,'0')
-		    else
-			    message.unpack("B128")[0]
-		    end
+        message[0..15].hex.to_s(2).rjust(64, '0')
+      else
+        message.unpack("B64")[0]
       end
 
-	0.upto(bmp.length-1) {|i| @bmp[i] = (bmp[i,1] == "1") }
+      if bmp[0,1] == "1"
+        bmp = if hex_bitmap?
+          message[0..31].hex.to_s(2).rjust(128,'0')
+        else
+          message.unpack("B128")[0]
+        end
+      end
+
+  0.upto(bmp.length-1) {|i| @bmp[i] = (bmp[i,1] == "1") }
     end
 
     class << self
       # Parse the bytes in string and return the Bitmap and bytes remaining in `str`
       # after the bitmap is taken away.
       def parse(str, hex_bitmap = false)
-	bmp  = Bitmap.new(str, hex_bitmap)
+  bmp  = Bitmap.new(str, hex_bitmap)
 
-	 rest = if bmp.hex_bitmap?
-			 bmp[1] ? str[32, str.length] : str[16, str.length]
-		else
-			 bmp[1] ? str[16, str.length] : str[8, str.length]
-		end
+   rest = if bmp.hex_bitmap?
+       bmp[1] ? str[32, str.length] : str[16, str.length]
+    else
+       bmp[1] ? str[16, str.length] : str[8, str.length]
+    end
 
         [ bmp, rest ]
       end

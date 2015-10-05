@@ -11,13 +11,13 @@ require "iso8583/version"
 # Some definitions that you'll need to edit in case you reuse this
 # Rakefile for your own project.
 
-SHORTNAME	= "iso8583"	# this should be the rubyforge project name
-DESC		= "Ruby implementation of ISO 8583 financial messaging"
-PKG_VERSION 	= ISO8583::VERSION
-LONG_DESC	= <<END_DESC
+SHORTNAME     = "iso8583"  # this should be the rubyforge project name
+DESC          = "Ruby implementation of ISO 8583 financial messaging"
+PKG_VERSION   = ISO8583::VERSION
+LONG_DESC     = <<END_DESC
 Ruby implementation of ISO 8583 financial messaging
 END_DESC
-RUBYFORGE_USER	= "a2800276"
+RUBYFORGE_USER  = "a2800276"
 
 # Specifies the default task to execute. This is often the "test" task
 # and we'll change things around as soon as we have some tests.
@@ -46,19 +46,17 @@ Rake::RDocTask.new do |rd|
 
   # The following line specifies all the files to extract
   # documenation from.
-  rd.rdoc_files.include("README", "AUTHORS", "LICENSE", "TODO",
-			"CHANGELOG", "bin/**/*", "lib/**/*.rb",
-                        "examples/**/*rb", "doc/*.rdoc")
+  rd.rdoc_files.include("README", "AUTHORS", "LICENSE", "TODO", "CHANGELOG", "bin/**/*", "lib/**/*.rb", "examples/**/*rb", "doc/*.rdoc")
   # This one specifies the output directory ...
-  rd.rdoc_dir 	= "doc/html"
+  rd.rdoc_dir = "doc/html"
 
   # Or the HTML title of the generated documentation set.
-  rd.title 	= "#{SHORTNAME}: #{DESC}"
+  rd.title = "#{SHORTNAME}: #{DESC}"
 
   # These are options specifiying how source code inlined in the
   # documentation should be formatted.
 
-  rd.options 	= ["--line-numbers", "--inline-source"]
+  rd.options = ["--line-numbers", "--inline-source"]
 
   # Check:
   # `rdoc --help` for more rdoc options
@@ -72,22 +70,22 @@ end
 
 # First you'll need to assemble a gemspec
 
-PKG_FILES 	= FileList["lib/**/*.rb", "bin/**/*", "examples/**/*", "[A-Z]*", "test/**/*"].to_a
+PKG_FILES   = FileList["lib/**/*.rb", "bin/**/*", "examples/**/*", "[A-Z]*", "test/**/*"].to_a
 
 spec = Gem::Specification.new do |s|
-  s.platform = Gem::Platform::RUBY
-  s.summary = "#{SHORTNAME}: #{DESC}"
-  s.name = SHORTNAME 
+  s.platform          = Gem::Platform::RUBY
+  s.summary           = "#{SHORTNAME}: #{DESC}"
+  s.name              = SHORTNAME 
   s.rubyforge_project = SHORTNAME
-  s.version = PKG_VERSION
-  s.files = PKG_FILES
+  s.version           = PKG_VERSION
+  s.files             = PKG_FILES
   s.requirements << "none"
-  s.require_path = "lib"
-  s.description = LONG_DESC
-  s.has_rdoc = true
-  s.authors = ["Tim Becker", "Slava Kravchenko"]
-  s.email = ["tim.becker@kuriositaet.de","cordawyn@gmail.com"]
-  s.homepage = "http://github.com/a2800276/8583/"
+  s.require_path      = "lib"
+  s.description       = LONG_DESC
+  s.has_rdoc          = true
+  s.authors           = ["Tim Becker", "Slava Kravchenko"]
+  s.email             = ["tim.becker@kuriositaet.de","cordawyn@gmail.com"]
+  s.homepage          = "http://github.com/a2800276/8583/"
 end
 
 # Adding a new GemPackageTask adds a task named `package`, which generates
@@ -97,27 +95,6 @@ Gem::PackageTask.new(spec) do |pkg|
   pkg.need_tar_gz = true
 end
 
-
-# This task is used to demonstrate how to upload files to Rubyforge.
-# Calling `upload_page` creates a current version of the +rdoc+
-# documentation and uploads it to the Rubyforge homepage of the project,
-# assuming it's hosted there and naming conventions haven't changed.
-#
-# This task uses `sh` to call the `scp` binary, which is plattform
-# dependant and may not be installed on your computer if you're using
-# Windows. I'm currently not aware of any pure ruby way to do scp
-# transfers.
-
-RubyForgeProject = SHORTNAME
-
-desc "Upload the web pages to the web."
-task :upload_pages => ["rdoc"] do
-  if RubyForgeProject then
-    path = "/var/www/gforge-projects/#{RubyForgeProject}"
-    sh "scp -r doc/html/* #{RUBYFORGE_USER}@rubyforge.org:#{path}"
-    sh "scp doc/images/*.png #{RUBYFORGE_USER}@rubyforge.org:#{path}/images"
-  end
-end
 
 # This task will run the unit tests provided in files called
 # `test/test*.rb`. The task itself can be run with a call to `rake test`
@@ -130,4 +107,12 @@ Rake::TestTask.new do |t|
   t.test_files = FileList["test/*.rb"]
   t.verbose = true
 end
+
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+rescue LoadError
+  warn "\n no rspec loadable ...?"
+end
+
 
