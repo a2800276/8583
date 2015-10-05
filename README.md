@@ -1,22 +1,24 @@
-### ISO 8583 Financial Messaging for Ruby
+[![Build Status](https://travis-ci.org/a2800276/8583.svg?branch=master)](https://travis-ci.org/a2800276/8583)
+
+# ISO 8583 Financial Messaging for Ruby
 
 This package currently contains code for coding an decoding ISO 8583
 Financial Message.
 
-###### Include the following features:
+## Developing
 
-  1. Support for 128 bits bitmap .
-  2. Hexadecimal bitmaps.
-  3. Mandatory fields.
-  4. Beautiful message dumps for developer happiness.
+In case you're using a ruby version >= 2.2, test-unit is no longer in
+the std lib, so it needs to be available. Bundler installs this, if not
+using bundler, you need to run `gem install test-unit` before running
+the tests.
 
 ## Usage
 
 The best place to understand what this library has to offer is reading the
-[message.rb](https://github.com/MaG21/8583/blob/master/lib/iso8583/message.rb)
+[message.rb](https://github.com/a2800276/8583/blob/master/lib/iso8583/message.rb)
 file. However, one can use it like so:
 
-#### Create defs
+### Create a Message Definition
 ```ruby
 class CustomMessage < ISO8583::Message
         include ISO8583
@@ -36,9 +38,10 @@ end
 ```
 
 Once you've defined the fields you'll be using, then you can proceed to create
-your messages.
+messages.
 
-#### Build Message
+### Build Messages
+
 ```ruby
 msg = CustomMessage.new(nil)
 
@@ -51,7 +54,8 @@ msg[65] = 'STRING'
 
 puts msg
 ```
-######Output:
+
+#### Output:
 
 ```text
 MTI:100 (Authorization Request Acquirer Gateway)
@@ -63,23 +67,26 @@ MTI:100 (Authorization Request Acquirer Gateway)
 065                 new bitmap : STRING
 ```
 
-#### ISO
+### Generate Binary Serialization
 ```ruby
 iso = msg.to_b
 p iso
 ```
 
-###### Output
+#### Output
+
 ```text
 "0100\xBC\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x0000000300000000000400000000000500000000000606STRING"
 ```
 
-#### Parse Message
+### Parse Message
+
 ```ruby
 parsed = CustomMessage.parse(iso)
 puts parsed
 ```
-###### Output
+
+#### Output
 
 ```text
 MTI:100 (Authorization Request Acquirer Gateway)
@@ -91,7 +98,7 @@ MTI:100 (Authorization Request Acquirer Gateway)
 065                 new bitmap : STRING
 ```
 
-## Dumps
+### Dumps
 
 The alignment is set to 16 characters by default.
 
@@ -110,7 +117,7 @@ sample output:
   34  2D  72  33  00  09  31  32  33  34  35  36  37  38  39      4-r3..123456789
 ```
   
-Although, one can set a different alignment!
+Although, one can set a different alignment:
 
 ```ruby
 # ...
@@ -138,11 +145,16 @@ sample output:
 
 You can install the last version of the +iso8583+ package by executing:
 
-	gem install iso8583 
+  gem install iso8583 
 
 ## Source
 
 The source is most readily available on github[http://github.com/a2800276/8583].
+
+In case you're using a ruby version >= 2.2, test-unit is no longer in
+the std lib, so it needs to be available. Bundler installs this, if not
+using bundler, you need to run `gem install test-unit` before running
+the tests.
 
 ## Mailing List
 
@@ -150,4 +162,3 @@ In case you discover bugs, spelling errors, offer suggestions for
 improvements or would like to help out with the project, you can contact
 me directly (tim@kuriositaet.de).
 
-[![Build Status](https://travis-ci.org/a2800276/8583.svg?branch=master)](https://travis-ci.org/a2800276/8583)

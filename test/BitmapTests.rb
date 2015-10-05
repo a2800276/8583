@@ -21,15 +21,15 @@ class BitmapTests < Test::Unit::TestCase
     assert !b[199]
 
     assert_raises(ISO8583Exception) {b.set 1000 }
-    assert_raises(ISO8583Exception) {	b.set 1 }
-    assert_raises(ISO8583Exception) {	b.set -1 }
+    assert_raises(ISO8583Exception) {  b.set 1 }
+    assert_raises(ISO8583Exception) {  b.set -1 }
   end
 
   def test_out_of_bounds_errors
     b = Bitmap.new
     assert_raises(ISO8583Exception) {b.set 1000 }
-    assert_raises(ISO8583Exception) {	b.set 1 }
-    assert_raises(ISO8583Exception) {	b.set -1 }
+    assert_raises(ISO8583Exception) {  b.set 1 }
+    assert_raises(ISO8583Exception) {  b.set -1 }
   end
 
   def test_parse_bmp
