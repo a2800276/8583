@@ -17,7 +17,6 @@ PKG_VERSION   = ISO8583::VERSION
 LONG_DESC     = <<END_DESC
 Ruby implementation of ISO 8583 financial messaging
 END_DESC
-RUBYFORGE_USER  = "a2800276"
 
 # Specifies the default task to execute. This is often the "test" task
 # and we'll change things around as soon as we have some tests.
@@ -64,36 +63,8 @@ Rake::RDocTask.new do |rd|
   # or the documentation for the +Rake::RDocTask+ task[http://rake.rubyforge.org/classes/Rake/RDocTask.html]
 end
 
-# The GemPackageTask facilitates getting all your files collected
-# together into gem archives. You can also use it to generate tarball
-# and zip archives.
-
-# First you'll need to assemble a gemspec
-
-PKG_FILES   = FileList["lib/**/*.rb", "bin/**/*", "examples/**/*", "[A-Z]*", "test/**/*"].to_a
-
-spec = Gem::Specification.new do |s|
-  s.platform          = Gem::Platform::RUBY
-  s.summary           = "#{SHORTNAME}: #{DESC}"
-  s.name              = SHORTNAME 
-  s.rubyforge_project = SHORTNAME
-  s.version           = PKG_VERSION
-  s.files             = PKG_FILES
-  s.requirements << "none"
-  s.require_path      = "lib"
-  s.description       = LONG_DESC
-  s.has_rdoc          = true
-  s.authors           = ["Tim Becker", "Slava Kravchenko"]
-  s.email             = ["tim.becker@kuriositaet.de","cordawyn@gmail.com"]
-  s.homepage          = "http://github.com/a2800276/8583/"
-end
-
-# Adding a new GemPackageTask adds a task named `package`, which generates
-# packages as gems, tarball and zip archives.
-Gem::PackageTask.new(spec) do |pkg|
-  pkg.need_zip = true
-  pkg.need_tar_gz = true
-end
+require 'bundler'
+Bundler::GemHelper.install_tasks
 
 
 # This task will run the unit tests provided in files called
