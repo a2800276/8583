@@ -53,6 +53,8 @@ module ISO8583
   #                       during encoding, no validity check during decoding. 
   # [+ANS_Codec+]         passes through ASCII string checking they conform to [\x20-\x7E]
   #                       during encoding, no validity check during decoding.
+  # [BE_U16]              16-bit unsigned, network (big-endian) byte order 
+  # [BE_U32]              32-bit unsigned, network (big-endian) byte order  
   # [+Null_Codec+]        passes anything along untouched.
   # [<tt>Track2</tt>]     rudimentary check that string conforms to Track2
   # [+MMDDhhmmssCodec+]   encodes Time, Datetime or String to the described date format, checking 
@@ -141,6 +143,23 @@ module ISO8583
     str
   }
   ANS_Codec.decoder = PASS_THROUGH_DECODER
+  
+  BE_U16 = Codec.new
+  BE_U16.encoder = lambda {|num|
+    raise ISO8583Exception.new("Invalid value: #{num} must be 0<= X <=2^16-1") unless 0 <= num && num <= 2**16-1
+    [num].pack("n")
+  }
+  BE_U16.decoder = lambda { |encoded|
+    encoded.unpack("n")[0]
+  }
+  BE_U32 = Codec.new
+  BE_U32.encoder = lambda {|num|
+    raise ISO8583Exception.new("Invalid value: #{num} must be 0<= X <=2^32-1") unless 0 <= num && num <= 2**32-1
+    [num].pack("N")
+  }
+  BE_U32.decoder = lambda { |encoded|
+    encoded.unpack("N")[0]
+  }
 
   Null_Codec = Codec.new
   Null_Codec.encoder = lambda {|str|
