@@ -139,4 +139,42 @@ class FieldTest < Test::Unit::TestCase
       dt = Packed_Number.encode "F"
     }
   end
+
+  def test_BE_U16 
+    assert_raise(ISO8583Exception) {
+      BE_U16.encode 2**16
+    }
+    assert_raise(ISO8583Exception) {
+      BE_U16.encode -1
+    }
+    assert_equal "\0\0", BE_U16.encode(0)
+    expected = "\xff\xff".force_encoding('ASCII-8BIT')
+    assert_equal expected, BE_U16.encode(2**16-1)
+    expected = "\x0f\xf0".force_encoding('ASCII-8BIT')
+    assert_equal expected, BE_U16.encode(0x00000ff0)
+    expected = "\xf0\x0f".force_encoding('ASCII-8BIT')
+    assert_equal expected, BE_U16.encode(0x0000f00f)
+    expected = "\x5A\xA5".force_encoding('ASCII-8BIT')
+    assert_equal expected, BE_U16.encode(0b0101101010100101)
+
+    assert_equal 0x5aa5, BE_U16.decode(expected)
+  end
+  def test_BE_U32 
+    assert_raise(ISO8583Exception) {
+      BE_U32.encode 2**32
+    }
+    assert_raise(ISO8583Exception) {
+      BE_U32.encode -1
+    }
+    assert_equal "\0\0\0\0", BE_U32.encode(0)
+    expected = "\xff\xff\xff\xff".force_encoding('ASCII-8BIT')
+    assert_equal expected, BE_U32.encode(2**32-1)
+    expected = "\xf0\xf0\x0f\x0f".force_encoding('ASCII-8BIT')
+    assert_equal expected, BE_U32.encode(0xf0f00f0f)
+    expected = "\0\0\0\x1".force_encoding('ASCII-8BIT')
+    assert_equal expected, BE_U32.encode(1)
+
+    assert_equal 1, BE_U32.decode(expected)
+    assert_equal 10, BE_U32.decode("\0\0\0\xa")
+  end
 end
