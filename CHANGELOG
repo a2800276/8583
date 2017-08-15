@@ -1,4 +1,4 @@
-0.2.?
+0.2.3
 =========
   Change Fixnum to Integer as Fixnum is deprecated
 
