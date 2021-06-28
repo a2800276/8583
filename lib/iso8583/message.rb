@@ -343,15 +343,19 @@ module ISO8583
           # @values[bmp] = bmp_def
         }
       end
-      
+
       # Parse the bytes `str` returning a message of the defined type.
+      #
+      # returns an instance of Message
+      #
+      # will raise an ISO8583Exception if the bitmap definition can't be found
       def parse(str)
         str = str.force_encoding('ASCII-8BIT')
         message = self.new
         message.mti, rest = _mti_format.parse(str)
         bmp,rest = Bitmap.parse(rest)
         bmp.each {|bit|
-          bmp_def      = _definitions[bit]
+          bmp_def      = message._get_definition(bit)
           value, rest  = bmp_def.field.parse(rest)
           message[bit] = value
         }

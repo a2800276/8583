@@ -45,6 +45,12 @@ class MessageTest < Test::Unit::TestCase
     assert_equal 1430, mes.mti
   end
 
+  def test_unknown_field
+    assert_raises(ISO8583Exception.new("no definition for field: 8")) {
+      mes = BerlinMessage.parse "1430A\000\000\000\000\000\000\00012474747474747"
+    }
+  end
+
   def test_rescue_standard_error
     rescued = false
     begin
