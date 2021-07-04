@@ -84,7 +84,6 @@ spec = Gem::Specification.new do |s|
   s.requirements << "none"
   s.require_path = "lib"
   s.description = LONG_DESC
-  s.has_rdoc = true
   s.authors = ["Tim Becker", "Slava Kravchenko"]
   s.email = ["tim.becker@kuriositaet.de","cordawyn@gmail.com"]
   s.homepage = "http://github.com/a2800276/8583/"
@@ -125,7 +124,7 @@ end
 Rake::TestTask.new do |t|
   t.libs << "test"
   t.libs << "."
-  t.ruby_opts = ["-rubygems"]
+  t.ruby_opts = ["-rrubygems"]
   t.test_files = FileList["test/*.rb"]
   t.verbose = true
 end

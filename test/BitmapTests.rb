@@ -22,14 +22,14 @@ class BitmapTests < Test::Unit::TestCase
 
     assert_raises(ISO8583Exception) {b.set 1000 }
     assert_raises(ISO8583Exception) {	b.set 1 }
-    assert_raises(ISO8583Exception) {	b.set -1 }
+    assert_raises(ISO8583Exception) {	b.set(-1) }
   end
 
   def test_out_of_bounds_errors
     b = Bitmap.new
     assert_raises(ISO8583Exception) {b.set 1000 }
     assert_raises(ISO8583Exception) {	b.set 1 }
-    assert_raises(ISO8583Exception) {	b.set -1 }
+    assert_raises(ISO8583Exception) {	b.set(-1) }
   end
 
   def test_parse_bmp
@@ -82,7 +82,7 @@ class BitmapTests < Test::Unit::TestCase
     tst = "\x80\x00\x10\x20\x40\x81\x02\x04\x08\x10\x20\x40\x81\x02\x04\x08"
     bmp = Bitmap.new tst
     arr = []
-    first = bmp.each{|bit|
+    bmp.each{|bit|
       arr.push bit
     }
     assert_equal 20, arr.first

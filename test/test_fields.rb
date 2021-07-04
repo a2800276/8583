@@ -10,7 +10,7 @@ class FieldTest < Test::Unit::TestCase
     assert_equal "456", rest
 
     assert_raise(ISO8583ParseException) {
-      l,rest = LLL.parse "12"
+      _,rest = LLL.parse "12"
     }
 
     enc = LLL.encode 123
@@ -50,10 +50,10 @@ class FieldTest < Test::Unit::TestCase
     assert_equal "123ABC", value
     assert_equal "", rest
     assert_raise(ISO8583ParseException) {
-      l,rest = LLLVAR_AN.parse "12"
+      _,rest = LLLVAR_AN.parse "12"
     }
     assert_raise(ISO8583ParseException) {
-      l,rest = LLVAR_AN.parse "12123"
+      _,rest = LLVAR_AN.parse "12123"
     }
 
     enc = LLVAR_AN.encode "123A"
@@ -83,10 +83,10 @@ class FieldTest < Test::Unit::TestCase
     assert_equal 1234, value
     assert_equal "", rest
     assert_raise(ISO8583ParseException) {
-      l,rest = LLLVAR_N.parse "12"
+      _,rest = LLLVAR_N.parse "12"
     }
     assert_raise(ISO8583ParseException) {
-      l,rest = LLVAR_N.parse "12123"
+      _,rest = LLVAR_N.parse "12123"
     }
 
     enc = LLVAR_N.encode 1234
@@ -116,10 +116,10 @@ class FieldTest < Test::Unit::TestCase
     assert_equal ";123123123=123?5", value
     assert_equal "", rest
     assert_raise(ISO8583ParseException) {
-      l,rest = LLVAR_Z.parse "12"
+      _,rest = LLVAR_Z.parse "12"
     }
     assert_raise(ISO8583ParseException) {
-      l,rest = LLVAR_Z.parse "17;123123123=123?5"
+      _,rest = LLVAR_Z.parse "17;123123123=123?5"
     }
 
     enc = LLVAR_Z.encode ";123123123=123?5"
@@ -213,6 +213,7 @@ class FieldTest < Test::Unit::TestCase
     fld.length=3
     value, rest = fld.parse "\x01\x23\x45"
     assert_equal 123, value
+    assert_equal "\x45", rest
 
     assert_equal "\x01\x23", fld.encode(123)
     assert_equal "\x01\x23", fld.encode("123")
@@ -241,6 +242,7 @@ class FieldTest < Test::Unit::TestCase
     assert_equal 12, dt.hour
     assert_equal 34, dt.min
     assert_equal 56, dt.sec
+    assert_equal "", rest
     
     assert_raise(ISO8583Exception) {
       fld.encode 1234567

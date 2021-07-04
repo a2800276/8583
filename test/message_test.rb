@@ -38,7 +38,7 @@ class MessageTest < Test::Unit::TestCase
     pan = 474747474747
 
     assert_raises(ISO8583Exception) {
-      mes = BerlinMessage.parse "@\000\000\000\000\000\000\00012474747474747"
+      BerlinMessage.parse "@\000\000\000\000\000\000\00012474747474747"
     }
     mes = BerlinMessage.parse "1430@\000\000\000\000\000\000\00012474747474747"
     assert_equal pan, mes.pan
@@ -50,6 +50,7 @@ class MessageTest < Test::Unit::TestCase
     begin
       BerlinMessage.parse("bogus")
     rescue => error
+      assert_instance_of ISO8583Exception, error
       rescued = true
     end
 
@@ -168,8 +169,8 @@ END
     mes[64] = "\xF0\xF0\xF0\xF0"
 
     bytes = mes.to_b
-    mes2 = BerlinMessage.parse(mes.to_b)
-    assert_equal(mes.to_b, mes2.to_b)
+    mes2 = BerlinMessage.parse(bytes)
+    assert_equal(bytes, mes2.to_b)
   end
 
   def test_remove_field

@@ -72,7 +72,7 @@ if __FILE__==$0
   mes[2] = 474747474747
   mes["Processing Code"] = "123456"
 
-  pan = mes["Primary Account Number (PAN)"]
+  #pan = mes["Primary Account Number (PAN)"]
   #mes.pan = 47474747474747
 
   #puts mes.pan

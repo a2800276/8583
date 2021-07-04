@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
   s.required_ruby_version     = ">= 1.9"
   s.rubyforge_project         = "iso8583"
-  s.has_rdoc                  = true
   
   s.requirements << "none"
   

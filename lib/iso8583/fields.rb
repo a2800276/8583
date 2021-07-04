@@ -57,63 +57,75 @@ module ISO8583
   }
 
   LL_BCD        = BCDField.new
+  LL_BCD.name   = "LL_BCD"
   LL_BCD.length = 2
   LL_BCD.codec  = Packed_Number
 
   # Two byte variable length ASCII numeral, payload ASCII numerals
   LLVAR_N        = Field.new
+  LLVAR_N.name   = "LLVAR_N"
   LLVAR_N.length = LL
   LLVAR_N.codec  = ASCII_Number
 
   # Three byte variable length ASCII numeral, payload ASCII numerals
   LLLVAR_N        = Field.new
+  LLLVAR_N.name   = "LLLVAR_N"
   LLLVAR_N.length = LLL
   LLLVAR_N.codec  = ASCII_Number
 
   # Two byte variable length ASCII numeral, payload Track2 data
   LLVAR_Z         = Field.new
+  LLVAR_Z.name    = "LLVAR_Z"
   LLVAR_Z.length  = LL
   LLVAR_Z.codec   = Track2
 
   # Two byte variable length ASCII numeral, payload ASCII, fixed length, zeropadded (right)
   LLVAR_AN        = Field.new
+  LLVAR_AN.name   = "LLVAR_AN"
   LLVAR_AN.length = LL
   LLVAR_AN.codec  = AN_Codec
 
   # Two byte variable length ASCII numeral, payload ASCII+special
   LLVAR_ANS        = Field.new
+  LLVAR_ANS.name   = "LLVAR_ANS"
   LLVAR_ANS.length = LL
   LLVAR_ANS.codec  = ANS_Codec
 
   # Three byte variable length ASCII numeral, payload ASCII, fixed length, zeropadded (right)
   LLLVAR_AN        = Field.new
+  LLLVAR_AN.name   = "LLLVAR_AN"
   LLLVAR_AN.length = LLL
   LLLVAR_AN.codec  = AN_Codec
 
   # Three byte variable length ASCII numeral, payload ASCII+special
   LLLVAR_ANS        = Field.new
+  LLLVAR_ANS.name   = "LLLVAR_ANS"
   LLLVAR_ANS.length = LLL
   LLLVAR_ANS.codec  = ANS_Codec
 
   # Two byte variable length binary payload
   LLVAR_B        = Field.new
+  LLVAR_B.name   = "LLVAR_B"
   LLVAR_B.length = LL
   LLVAR_B.codec  = Null_Codec
 
 
   # Three byte variable length binary payload
   LLLVAR_B        = Field.new
+  LLLVAR_B.name   = "LLLVAR_B"
   LLLVAR_B.length = LLL
   LLLVAR_B.codec  = Null_Codec
 
   # Fixed lengh numerals, repesented in ASCII, padding right justified using zeros
   N = Field.new
+  N.name  = "N"
   N.codec = ASCII_Number
   N.padding = lambda {|val, len|
     sprintf("%0#{len}d", val)
   }
 
   N_BCD = BCDField.new
+  N_BCD.name  = "N_BCD"
   N_BCD.codec = Packed_Number
 
   PADDING_LEFT_JUSTIFIED_SPACES = lambda {|val, len|
@@ -122,25 +134,30 @@ module ISO8583
 
   # Fixed length ASCII letters [A-Za-z]
   A = Field.new
+  A.name  = "A"
   A.codec = A_Codec
 
   # Fixed lengh ASCII [A-Za-z0-9], padding left justified using spaces.
   AN = Field.new
+  AN.name  = "AN"
   AN.codec = AN_Codec
   AN.padding = PADDING_LEFT_JUSTIFIED_SPACES
 
   # Fixed lengh ASCII [A-Za-z0-9] and space, padding left, spaces
   ANP = Field.new
+  ANP.name  = "ANP"
   ANP.codec = ANP_Codec
   ANP.padding = PADDING_LEFT_JUSTIFIED_SPACES
 
   # Fixed length ASCII  [\x20-\x7E], padding left, spaces
   ANS = Field.new
+  ANS.name = ANS
   ANS.codec = ANS_Codec
   ANS.padding = PADDING_LEFT_JUSTIFIED_SPACES
 
   # Binary data, padding left using nulls (0x00)
   B = Field.new
+  B.name  = "B"
   B.codec = Null_Codec
   B.padding = lambda {|val, len|
     while val.length < len
@@ -151,24 +168,29 @@ module ISO8583
 
   # Date, formatted as described in ASCII numerals
   MMDDhhmmss        = Field.new
+  MMDDhhmmss.name   = "MMDDhhmmss"
   MMDDhhmmss.codec  = MMDDhhmmssCodec
   MMDDhhmmss.length = 10
 
   #Date, formatted as described in ASCII numerals
   YYMMDDhhmmss        = Field.new
+  YYMMDDhhmmss.name   = "YYMMDDhhmmss"
   YYMMDDhhmmss.codec  = YYMMDDhhmmssCodec
   YYMMDDhhmmss.length = 12
 
   #Date, formatted as described in ASCII numerals
   YYMM        = Field.new
+  YYMM.name   = "YYMM"
   YYMM.codec  = YYMMCodec
   YYMM.length = 4
   
   MMDD        = Field.new
+  MMDD.name   = "MMDD"
   MMDD.codec  = MMDDCodec
   MMDD.length = 4
 
   Hhmmss        = Field.new
+  Hhmmss.name   = "Hhmmss"
   Hhmmss.codec  = HhmmssCodec
   Hhmmss.length = 6
 

@@ -135,7 +135,7 @@ module ISO8583
     #    mes = MyMessage.new
     #    mes.mti = 1100 # or mes.mti = "Authorization Request Acquirer Gateway"
     def mti=(value)
-      num, name = _get_mti_definition(value)
+      num, _ = _get_mti_definition(value)
       @mti = num
     end
     

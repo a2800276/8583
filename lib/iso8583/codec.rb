@@ -113,7 +113,7 @@ module ISO8583
     [val].pack("H*")
   }
   Packed_Number.decoder = lambda{|encoded|
-    d = encoded.unpack("H*")[0].to_i
+    encoded.unpack("H*")[0].to_i
   }
 
   A_Codec = Codec.new
